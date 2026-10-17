@@ -1,0 +1,22 @@
+[Desktop Entry]
+# Querencia Editor (Prototyp). Desktop-ID = GApplication-ID org.querencia.Editor,
+# damit labwc und die Fensterliste Titelleistensymbol und Namen finden.
+# BEWUSST OHNE MimeType=: Dateizuordnungen (text/plain, text/markdown …)
+# werden erst nach gesonderter Freigabe ergänzt.
+Type=Application
+Version=1.5
+Name=Querencia Editor
+Name[de]=Querencia Editor
+GenericName=Text Editor
+GenericName[de]=Texteditor
+Comment=Edit text files
+Comment[de]=Textdateien bearbeiten
+Exec=querencia-editor %U
+TryExec=querencia-editor
+Icon=org.querencia.Editor
+Terminal=false
+Categories=GTK;Utility;TextEditor;
+Keywords=text;editor;notepad;
+Keywords[de]=Text;Editor;Texteditor;Notizen;
+StartupNotify=true
+StartupWMClass=org.querencia.Editor

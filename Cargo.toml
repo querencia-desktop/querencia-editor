@@ -1,0 +1,23 @@
+[package]
+name = "querencia-editor"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.92"
+description = "Querencia Editor: klassischer Texteditor für Querencia Desktop (Prototyp)"
+license = "GPL-3.0-or-later"
+publish = false
+
+[dependencies]
+# Dieselben Bindings wie die übrigen Querencia-Programme (gtk-rs 0.11);
+# GtkSourceView 5 liefert Hervorhebung, Suche, Zeilennummern, Einrückung
+# und Laden/Speichern mit Zeichensatzerkennung.
+gtk = { package = "gtk4", version = "0.11", features = ["v4_12"] }
+sourceview5 = { version = "0.11", features = ["gtk_v4_12"] }
+
+[profile.release]
+lto = true
+codegen-units = 1
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"
