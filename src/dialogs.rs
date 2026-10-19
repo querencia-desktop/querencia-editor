@@ -10,6 +10,7 @@ use gtk::prelude::*;
 use gtk::{gdk, gio, glib};
 
 use crate::APP_NAME;
+use crate::i18n::{gettext, gettext_f};
 
 /// Noch nicht gemeldete Antwort (wird genau einmal genommen).
 type PendingAnswer = Rc<RefCell<Option<Box<dyn FnOnce(SaveAnswer)>>>>;
@@ -155,21 +156,24 @@ fn content(child: &impl IsA<gtk::Widget>, buttons: &gtk::Box) -> gtk::Box {
     outer
 }
 
-/// „Änderungen am Dokument „name“ vor dem Schließen speichern?“
+/// „Save changes to document “name” before closing?“ (gedit 2.30)
 pub fn ask_save(
     parent: &impl IsA<gtk::Window>,
     name: &str,
     answer: impl FnOnce(SaveAnswer) + 'static,
 ) {
     let window = modal_window(parent, APP_NAME);
-    let discard = gtk::Button::with_mnemonic("_Ohne Speichern schließen");
-    let cancel = gtk::Button::with_mnemonic("_Abbrechen");
-    let save = gtk::Button::with_mnemonic("_Speichern");
+    let discard = gtk::Button::with_mnemonic(&gettext("Close _without Saving"));
+    let cancel = gtk::Button::with_mnemonic(&gettext("_Cancel"));
+    let save = gtk::Button::with_mnemonic(&gettext("_Save"));
     save.add_css_class("suggested-action");
     let body = message_box(
         "dialog-warning",
-        &format!("Änderungen am Dokument „{name}“ vor dem Schließen speichern?"),
-        "Wenn Sie nicht speichern, gehen Ihre Änderungen verloren.",
+        &gettext_f(
+            "Save changes to document “{name}” before closing?",
+            &[("name", name)],
+        ),
+        &gettext("If you don’t save, your changes will be lost."),
     );
     window.set_child(Some(&content(
         &body,
@@ -210,10 +214,10 @@ pub fn ask_save(
     save.grab_focus();
 }
 
-/// Fehlermeldung mit einem Knopf „Schließen“.
+/// Fehlermeldung mit einem Knopf „Close“.
 pub fn error(parent: &impl IsA<gtk::Window>, primary: &str, secondary: &str) {
     let window = modal_window(parent, APP_NAME);
-    let close = gtk::Button::with_mnemonic("_Schließen");
+    let close = gtk::Button::with_mnemonic(&gettext("_Close"));
     let body = message_box("dialog-error", primary, secondary);
     window.set_child(Some(&content(&body, &button_row(&[&close]))));
     window.set_default_widget(Some(&close));
@@ -227,17 +231,18 @@ pub fn error(parent: &impl IsA<gtk::Window>, primary: &str, secondary: &str) {
     window.present();
 }
 
-/// „Gehe zu Zeile“: Zahl eingeben, Eingabetaste springt.
+/// „Go to Line“: Zahl eingeben, Eingabetaste springt.
 pub fn goto_line(parent: &impl IsA<gtk::Window>, max_line: i32, jump: impl Fn(i32) + 'static) {
-    let window = modal_window(parent, "Gehe zu Zeile");
-    let label = gtk::Label::with_mnemonic("_Zeile:");
+    let window = modal_window(parent, &gettext("Go to Line"));
+    let label = gtk::Label::with_mnemonic(&gettext("_Line:"));
     let spin = gtk::SpinButton::with_range(1.0, f64::from(max_line.max(1)), 1.0);
     label.set_mnemonic_widget(Some(&spin));
     let row = gtk::Box::new(gtk::Orientation::Horizontal, 6);
     row.append(&label);
     row.append(&spin);
-    let cancel = gtk::Button::with_mnemonic("_Abbrechen");
-    let go = gtk::Button::with_mnemonic("_Springen");
+    let cancel = gtk::Button::with_mnemonic(&gettext("_Cancel"));
+    // TRANSLATORS: Knopf im Dialog „Go to Line“.
+    let go = gtk::Button::with_mnemonic(&gettext("_Go"));
     go.add_css_class("suggested-action");
     window.set_child(Some(&content(&row, &button_row(&[&cancel, &go]))));
     window.set_default_widget(Some(&go));
@@ -274,9 +279,9 @@ pub fn goto_line(parent: &impl IsA<gtk::Window>, max_line: i32, jump: impl Fn(i3
 
 const LOGO_64: &[u8] = include_bytes!("../data/logo/querencia-logo-64.png");
 
-/// „Info“: offizielles Querencia-Logo C2, Name, Version, Lizenz.
+/// „About“: offizielles Querencia-Logo C2, Name, Version, Lizenz.
 pub fn about(parent: &impl IsA<gtk::Window>) {
-    let window = modal_window(parent, &format!("Info zu {APP_NAME}"));
+    let window = modal_window(parent, &gettext_f("About {name}", &[("name", APP_NAME)]));
     let body = gtk::Box::new(gtk::Orientation::Vertical, 8);
     body.set_halign(gtk::Align::Center);
     if let Ok(texture) = gdk::Texture::from_bytes(&glib::Bytes::from_static(LOGO_64)) {
@@ -289,11 +294,11 @@ pub fn about(parent: &impl IsA<gtk::Window>) {
         "<b><big>{APP_NAME} {}</big></b>",
         env!("CARGO_PKG_VERSION")
     ));
-    let text = gtk::Label::new(Some(
-        "Klassischer Texteditor für Querencia Desktop\n\
-         nach dem Vorbild von gedit 2.30.\n\n\
-         Prototyp – nicht für den Alltag freigegeben.",
-    ));
+    let text = gtk::Label::new(Some(&gettext(
+        "A classic text editor for Querencia Desktop,\n\
+         modelled on gedit 2.30.\n\n\
+         Prototype – not yet released for everyday use.",
+    )));
     text.set_justify(gtk::Justification::Center);
     let tech = gtk::Label::new(Some(&format!(
         "GTK {}.{}.{} · GtkSourceView 5",
@@ -302,13 +307,13 @@ pub fn about(parent: &impl IsA<gtk::Window>) {
         gtk::micro_version()
     )));
     tech.add_css_class("dim-label");
-    let license = gtk::Label::new(Some("Lizenz: GNU GPL, Version 3 oder neuer"));
+    let license = gtk::Label::new(Some(&gettext("License: GNU GPL, version 3 or later")));
     license.add_css_class("dim-label");
     body.append(&name);
     body.append(&text);
     body.append(&tech);
     body.append(&license);
-    let close = gtk::Button::with_mnemonic("_Schließen");
+    let close = gtk::Button::with_mnemonic(&gettext("_Close"));
     window.set_child(Some(&content(&body, &button_row(&[&close]))));
     window.set_default_widget(Some(&close));
     close_on_escape(&window);

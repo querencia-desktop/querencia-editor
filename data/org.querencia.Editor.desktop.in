@@ -1,0 +1,23 @@
+[Desktop Entry]
+# Querencia Editor. Desktop-ID = GApplication-ID org.querencia.Editor, damit
+# labwc und die Fensterliste Titelleistensymbol und Namen finden.
+# Vorlage: Name, GenericName, Comment und Keywords sind englisch; die
+# Übersetzungen (Name[de]= …) setzt `werkzeug/i18n.py desktop` aus po/*.po
+# ein (entspricht msgfmt --desktop). Erzeugt: org.querencia.Editor.desktop.
+# Menüname „Text Editor“/„Texteditor“ (Zubehör) wie live seit G2-E; der
+# Fenstertitel bleibt „Querencia Editor“. MimeType: die zehn hervorgehobenen
+# Formate (txt/conf/ini → text/plain, md, json, xml, sh, py, rs, c/h).
+Type=Application
+Version=1.5
+Name=Text Editor
+GenericName=Text Editor
+Comment=Edit text files
+Exec=querencia-editor %U
+TryExec=querencia-editor
+Icon=org.querencia.Editor
+Terminal=false
+Categories=GTK;Utility;TextEditor;
+MimeType=text/plain;text/markdown;text/x-markdown;application/json;application/xml;text/xml;application/x-shellscript;text/x-shellscript;text/x-python;text/x-python3;text/rust;text/x-csrc;text/x-chdr;
+Keywords=Text;Editor;Notepad;Notes;
+StartupNotify=true
+StartupWMClass=org.querencia.Editor

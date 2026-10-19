@@ -15,6 +15,7 @@ use sourceview5::prelude::*;
 
 use crate::dialogs::{self, SaveAnswer};
 use crate::document::Document;
+use crate::i18n::{gettext, gettext_f, pgettext};
 use crate::search::{self, SearchDialog};
 use crate::{APP_NAME, languages};
 
@@ -63,7 +64,7 @@ pub fn install_accels(app: &gtk::Application) {
 }
 
 fn menu_model() -> gio::Menu {
-    fn section(items: &[(&str, &str)]) -> gio::Menu {
+    fn section(items: &[(String, &str)]) -> gio::Menu {
         let m = gio::Menu::new();
         for (label, action) in items {
             m.append(Some(label), Some(action));
@@ -77,66 +78,82 @@ fn menu_model() -> gio::Menu {
         }
         m
     }
+    // Beschriftungen wie gedit 2.30 (englische msgid, Deutsch aus po/de.po).
     let bar = gio::Menu::new();
     bar.append_submenu(
-        Some("_Datei"),
+        Some(&gettext("_File")),
         &submenu(&[
-            section(&[("_Neu", "win.new"), ("Ö_ffnen …", "win.open")]),
             section(&[
-                ("_Speichern", "win.save"),
-                ("Speichern _unter …", "win.save-as"),
+                (gettext("_New"), "win.new"),
+                (gettext("_Open…"), "win.open"),
             ]),
-            section(&[("S_chließen", "win.close"), ("_Beenden", "win.quit")]),
+            section(&[
+                (gettext("_Save"), "win.save"),
+                (gettext("Save _As…"), "win.save-as"),
+            ]),
+            section(&[
+                (pgettext("File menu", "_Close"), "win.close"),
+                (gettext("_Quit"), "win.quit"),
+            ]),
         ]),
     );
     bar.append_submenu(
-        Some("_Bearbeiten"),
+        Some(&gettext("_Edit")),
         &submenu(&[
-            section(&[("_Rückgängig", "win.undo"), ("_Wiederholen", "win.redo")]),
             section(&[
-                ("_Ausschneiden", "win.cut"),
-                ("_Kopieren", "win.copy"),
-                ("E_infügen", "win.paste"),
-                ("_Löschen", "win.delete"),
+                (gettext("_Undo"), "win.undo"),
+                (gettext("_Redo"), "win.redo"),
             ]),
-            section(&[("Alles a_uswählen", "win.select-all")]),
+            section(&[
+                (gettext("Cu_t"), "win.cut"),
+                (gettext("_Copy"), "win.copy"),
+                (gettext("_Paste"), "win.paste"),
+                (gettext("_Delete"), "win.delete"),
+            ]),
+            section(&[(gettext("Select _All"), "win.select-all")]),
         ]),
     );
     bar.append_submenu(
-        Some("_Ansicht"),
+        Some(&gettext("_View")),
         &submenu(&[section(&[
-            ("_Zeilennummern", "win.line-numbers"),
-            ("Zeilen_umbruch", "win.wrap"),
-            ("_Statusleiste", "win.statusbar"),
+            (gettext("_Line Numbers"), "win.line-numbers"),
+            (gettext("_Text Wrapping"), "win.wrap"),
+            (gettext("_Statusbar"), "win.statusbar"),
         ])]),
     );
     bar.append_submenu(
-        Some("_Suchen"),
+        Some(&gettext("_Search")),
         &submenu(&[
             section(&[
-                ("_Suchen …", "win.find"),
-                ("_Weitersuchen", "win.find-next"),
-                ("_Rückwärts suchen", "win.find-prev"),
+                (gettext("_Find…"), "win.find"),
+                (gettext("Find Ne_xt"), "win.find-next"),
+                (gettext("Find Pre_vious"), "win.find-prev"),
             ]),
-            section(&[("_Ersetzen …", "win.replace")]),
-            section(&[("Gehe zu _Zeile …", "win.goto-line")]),
+            section(&[(gettext("_Replace…"), "win.replace")]),
+            section(&[(gettext("Go to _Line…"), "win.goto-line")]),
         ]),
     );
     bar.append_submenu(
-        Some("D_okumente"),
+        Some(&gettext("_Documents")),
         &submenu(&[
-            section(&[("Alle s_peichern", "win.save-all")]),
+            section(&[(gettext("_Save All"), "win.save-all")]),
             section(&[
-                ("_Voriges Dokument", "win.prev-doc"),
-                ("_Nächstes Dokument", "win.next-doc"),
+                (gettext("_Previous Document"), "win.prev-doc"),
+                (gettext("_Next Document"), "win.next-doc"),
             ]),
         ]),
     );
     bar.append_submenu(
-        Some("_Hilfe"),
-        &submenu(&[section(&[("_Info", "win.about")])]),
+        Some(&gettext("_Help")),
+        &submenu(&[section(&[(gettext("_About"), "win.about")])]),
     );
     bar
+}
+
+/// „INS“ in der Statusleiste (Einfügemodus).
+fn insert_mode_label() -> String {
+    // TRANSLATORS: Statusleiste, Einfügemodus (kurz, höchstens 5 Zeichen).
+    gettext("INS")
 }
 
 pub struct Editor {
@@ -198,7 +215,7 @@ impl Editor {
         let status_language = gtk::Label::new(None);
         let status_position = gtk::Label::new(None);
         status_position.set_width_chars(18);
-        let status_mode = gtk::Label::new(Some("EINF"));
+        let status_mode = gtk::Label::new(Some(&insert_mode_label()));
         status_mode.set_width_chars(5);
         let statusbar = gtk::Box::new(gtk::Orientation::Horizontal, 12);
         statusbar.add_css_class("qe-statusbar");
@@ -293,12 +310,16 @@ impl Editor {
         self.status_language
             .set_text(&languages::display_name(doc.buffer.language().as_ref()));
         let (line, col) = doc.cursor_position();
-        self.status_position
-            .set_text(&format!("Zeile {line}, Sp. {col}"));
-        self.status_mode.set_text(if doc.view.overwrites() {
-            "ÜBR"
+        self.status_position.set_text(&gettext_f(
+            // TRANSLATORS: Statusleiste, Position der Einfügemarke (wie gedit „Ln 12, Col 5“).
+            "Ln {line}, Col {col}",
+            &[("line", &line.to_string()), ("col", &col.to_string())],
+        ));
+        self.status_mode.set_text(&if doc.view.overwrites() {
+            // TRANSLATORS: Statusleiste, Überschreibmodus (kurz, höchstens 5 Zeichen).
+            gettext("OVR")
         } else {
-            "EINF"
+            insert_mode_label()
         });
     }
 
@@ -407,7 +428,7 @@ impl Editor {
                     e.remove_document(&d2);
                     dialogs::error(
                         &e.window,
-                        &format!("„{name}“ konnte nicht geöffnet werden."),
+                        &gettext_f("Could not open “{name}”.", &[("name", &name)]),
                         err.message(),
                     );
                 }
@@ -446,13 +467,13 @@ impl Editor {
             let Some(e) = weak.upgrade() else { return };
             match result {
                 Ok(()) => {
-                    e.report(&format!("„{name}“ gespeichert."));
+                    e.report(&gettext_f("Saved “{name}”.", &[("name", &name)]));
                     done(true);
                 }
                 Err(err) => {
                     dialogs::error(
                         &e.window,
-                        &format!("„{full}“ konnte nicht gespeichert werden."),
+                        &gettext_f("Could not save “{name}”.", &[("name", &full)]),
                         err.message(),
                     );
                     done(false);
@@ -463,7 +484,7 @@ impl Editor {
 
     fn save_as(self: &Rc<Self>, doc: &Rc<Document>, done: Done) {
         let dialog = gtk::FileDialog::builder()
-            .title("Speichern unter …")
+            .title(gettext("Save As…"))
             .modal(true)
             .initial_name(doc.short_name())
             .build();
@@ -652,7 +673,7 @@ impl Editor {
             Box::new(move |_, _| {
                 let Some(e) = weak.upgrade() else { return };
                 let dialog = gtk::FileDialog::builder()
-                    .title("Datei öffnen")
+                    .title(gettext("Open File"))
                     .modal(true)
                     .build();
                 if let Some(dir) = e

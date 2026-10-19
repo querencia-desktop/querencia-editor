@@ -1,0 +1,345 @@
+# Übersetzungsvorlage für Querencia Editor.
+# Copyright (C) 2026 Querencia
+# Diese Datei steht unter derselben Lizenz wie Querencia Editor (GPL-3.0-or-later).
+# Erzeugt mit werkzeug/i18n.py pot – nicht von Hand bearbeiten.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: querencia-editor\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#. TRANSLATORS: Desktop-Datei, Schlüssel Name
+#. TRANSLATORS: Desktop-Datei, Schlüssel GenericName
+#: data/org.querencia.Editor.desktop.in:12 data/org.querencia.Editor.desktop.in:13
+msgid "Text Editor"
+msgstr ""
+
+#. TRANSLATORS: Desktop-Datei, Schlüssel Comment
+#: data/org.querencia.Editor.desktop.in:14
+msgid "Edit text files"
+msgstr ""
+
+#. TRANSLATORS: Desktop-Datei, Schlüssel Keywords (Liste, Einträge mit ; trennen und abschließen)
+#: data/org.querencia.Editor.desktop.in:21
+msgid "Text;Editor;Notepad;Notes;"
+msgstr ""
+
+#: src/dialogs.rs:166
+msgid "Close _without Saving"
+msgstr ""
+
+#: src/dialogs.rs:167 src/dialogs.rs:243
+msgid "_Cancel"
+msgstr ""
+
+#: src/dialogs.rs:168 src/editor.rs:91
+msgid "_Save"
+msgstr ""
+
+#: src/dialogs.rs:172
+#, no-c-format
+msgid "Save changes to document “{name}” before closing?"
+msgstr ""
+
+#: src/dialogs.rs:176
+msgid "If you don’t save, your changes will be lost."
+msgstr ""
+
+#: src/dialogs.rs:220 src/dialogs.rs:316
+msgid "_Close"
+msgstr ""
+
+#: src/dialogs.rs:236
+msgid "Go to Line"
+msgstr ""
+
+#: src/dialogs.rs:237
+msgid "_Line:"
+msgstr ""
+
+#. TRANSLATORS: Knopf im Dialog „Go to Line“.
+#: src/dialogs.rs:245
+msgid "_Go"
+msgstr ""
+
+#: src/dialogs.rs:284
+#, no-c-format
+msgid "About {name}"
+msgstr ""
+
+#: src/dialogs.rs:297
+msgid ""
+"A classic text editor for Querencia Desktop,\n"
+"modelled on gedit 2.30.\n"
+"\n"
+"Prototype – not yet released for everyday use."
+msgstr ""
+
+#: src/dialogs.rs:310
+msgid "License: GNU GPL, version 3 or later"
+msgstr ""
+
+#: src/document.rs:66
+msgid "Close document"
+msgstr ""
+
+#: src/document.rs:106
+#, no-c-format
+msgid "Unsaved Document {n}"
+msgstr ""
+
+#: src/editor.rs:84
+msgid "_File"
+msgstr ""
+
+#: src/editor.rs:87
+msgid "_New"
+msgstr ""
+
+#: src/editor.rs:88
+msgid "_Open…"
+msgstr ""
+
+#: src/editor.rs:92
+msgid "Save _As…"
+msgstr ""
+
+#: src/editor.rs:95
+msgctxt "File menu"
+msgid "_Close"
+msgstr ""
+
+#: src/editor.rs:96
+msgid "_Quit"
+msgstr ""
+
+#: src/editor.rs:101
+msgid "_Edit"
+msgstr ""
+
+#: src/editor.rs:104
+msgid "_Undo"
+msgstr ""
+
+#: src/editor.rs:105
+msgid "_Redo"
+msgstr ""
+
+#: src/editor.rs:108
+msgid "Cu_t"
+msgstr ""
+
+#: src/editor.rs:109
+msgid "_Copy"
+msgstr ""
+
+#: src/editor.rs:110
+msgid "_Paste"
+msgstr ""
+
+#: src/editor.rs:111
+msgid "_Delete"
+msgstr ""
+
+#: src/editor.rs:113
+msgid "Select _All"
+msgstr ""
+
+#: src/editor.rs:117
+msgid "_View"
+msgstr ""
+
+#: src/editor.rs:119
+msgid "_Line Numbers"
+msgstr ""
+
+#: src/editor.rs:120
+msgid "_Text Wrapping"
+msgstr ""
+
+#: src/editor.rs:121
+msgid "_Statusbar"
+msgstr ""
+
+#: src/editor.rs:125
+msgid "_Search"
+msgstr ""
+
+#: src/editor.rs:128
+msgid "_Find…"
+msgstr ""
+
+#: src/editor.rs:129
+msgid "Find Ne_xt"
+msgstr ""
+
+#: src/editor.rs:130
+msgid "Find Pre_vious"
+msgstr ""
+
+#: src/editor.rs:132
+msgid "_Replace…"
+msgstr ""
+
+#: src/editor.rs:133
+msgid "Go to _Line…"
+msgstr ""
+
+#: src/editor.rs:137
+msgid "_Documents"
+msgstr ""
+
+#: src/editor.rs:139
+msgid "_Save All"
+msgstr ""
+
+#: src/editor.rs:141
+msgid "_Previous Document"
+msgstr ""
+
+#: src/editor.rs:142
+msgid "_Next Document"
+msgstr ""
+
+#: src/editor.rs:147
+msgid "_Help"
+msgstr ""
+
+#: src/editor.rs:148
+msgid "_About"
+msgstr ""
+
+#. TRANSLATORS: Statusleiste, Einfügemodus (kurz, höchstens 5 Zeichen).
+#: src/editor.rs:156
+msgid "INS"
+msgstr ""
+
+#. TRANSLATORS: Statusleiste, Position der Einfügemarke (wie gedit „Ln 12, Col 5“).
+#: src/editor.rs:313
+#, no-c-format
+msgid "Ln {line}, Col {col}"
+msgstr ""
+
+#. TRANSLATORS: Statusleiste, Überschreibmodus (kurz, höchstens 5 Zeichen).
+#: src/editor.rs:320
+msgid "OVR"
+msgstr ""
+
+#: src/editor.rs:431
+#, no-c-format
+msgid "Could not open “{name}”."
+msgstr ""
+
+#: src/editor.rs:470
+#, no-c-format
+msgid "Saved “{name}”."
+msgstr ""
+
+#: src/editor.rs:476
+#, no-c-format
+msgid "Could not save “{name}”."
+msgstr ""
+
+#: src/editor.rs:487
+msgid "Save As…"
+msgstr ""
+
+#: src/editor.rs:676
+msgid "Open File"
+msgstr ""
+
+#: src/i18n.rs:137 src/i18n.rs:146 src/search.rs:230
+#, no-c-format
+msgid "Replaced one occurrence."
+msgid_plural "Replaced {n} occurrences."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/languages.rs:42
+msgid "Plain Text"
+msgstr ""
+
+#: src/languages.rs:44
+msgid "INI/Configuration"
+msgstr ""
+
+#: src/search.rs:108
+msgid "Replace"
+msgstr ""
+
+#: src/search.rs:110
+msgid "Find"
+msgstr ""
+
+#: src/search.rs:122
+msgid "_Search for:"
+msgstr ""
+
+#: src/search.rs:137
+msgid "Replace _with:"
+msgstr ""
+
+#: src/search.rs:143
+msgid "_Match case"
+msgstr ""
+
+#: src/search.rs:144
+msgid "Match _entire word only"
+msgstr ""
+
+#: src/search.rs:145
+msgid "Search _backwards"
+msgstr ""
+
+#: src/search.rs:146
+msgid "Wra_p around"
+msgstr ""
+
+#. TRANSLATORS: Knöpfe im Such-/Ersetzen-Dialog; die Zugriffstasten dürfen sich nicht mit den Feldern darüber überschneiden.
+#: src/search.rs:158
+msgctxt "Search dialog"
+msgid "_Close"
+msgstr ""
+
+#: src/search.rs:159
+msgid "Replace _All"
+msgstr ""
+
+#: src/search.rs:160
+msgid "_Replace"
+msgstr ""
+
+#: src/search.rs:161
+msgid "_Find"
+msgstr ""
+
+#: src/search.rs:229
+msgid "Nothing found – nothing replaced."
+msgstr ""
+
+#: src/search.rs:280
+#, no-c-format
+msgid "Replace failed: {error}"
+msgstr ""
+
+#: src/search.rs:288
+msgid "Reached the end of the document, continued from the beginning."
+msgstr ""
+
+#: src/search.rs:291
+#, no-c-format
+msgid "“{text}” not found."
+msgstr ""
+
+#: src/search.rs:292
+msgid "No search text."
+msgstr ""

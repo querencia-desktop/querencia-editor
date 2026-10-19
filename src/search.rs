@@ -12,6 +12,7 @@ use gtk::{gdk, glib};
 use sourceview5::prelude::*;
 
 use crate::document::Document;
+use crate::i18n::{gettext, gettext_f, ngettext_f, pgettext};
 
 /// Ergebnis eines Suchschritts (für Statuszeile und Tests).
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -103,7 +104,11 @@ impl SearchDialog {
     ) -> Rc<Self> {
         let window = gtk::Window::builder()
             .transient_for(parent)
-            .title(if replace { "Ersetzen" } else { "Suchen" })
+            .title(if replace {
+                gettext("Replace")
+            } else {
+                gettext("Find")
+            })
             .resizable(false)
             .hide_on_close(true)
             .build();
@@ -114,7 +119,7 @@ impl SearchDialog {
             .row_spacing(6)
             .column_spacing(12)
             .build();
-        let find_label = gtk::Label::with_mnemonic("_Suchen nach:");
+        let find_label = gtk::Label::with_mnemonic(&gettext("_Search for:"));
         find_label.set_xalign(0.0);
         let find_entry = gtk::Entry::builder()
             .hexpand(true)
@@ -129,16 +134,16 @@ impl SearchDialog {
             .activates_default(true)
             .build();
         if replace {
-            let l = gtk::Label::with_mnemonic("Ersetzen _durch:");
+            let l = gtk::Label::with_mnemonic(&gettext("Replace _with:"));
             l.set_xalign(0.0);
             l.set_mnemonic_widget(Some(&replace_entry));
             grid.attach(&l, 0, 1, 1, 1);
             grid.attach(&replace_entry, 1, 1, 1, 1);
         }
-        let case = gtk::CheckButton::with_mnemonic("_Groß-/Kleinschreibung beachten");
-        let words = gtk::CheckButton::with_mnemonic("Nur ganze _Wörter");
-        let backward = gtk::CheckButton::with_mnemonic("_Rückwärts suchen");
-        let wrap = gtk::CheckButton::with_mnemonic("Am _Ende neu beginnen");
+        let case = gtk::CheckButton::with_mnemonic(&gettext("_Match case"));
+        let words = gtk::CheckButton::with_mnemonic(&gettext("Match _entire word only"));
+        let backward = gtk::CheckButton::with_mnemonic(&gettext("Search _backwards"));
+        let wrap = gtk::CheckButton::with_mnemonic(&gettext("Wra_p around"));
         case.set_active(settings.is_case_sensitive());
         words.set_active(settings.is_at_word_boundaries());
         wrap.set_active(settings.wraps_around());
@@ -148,10 +153,12 @@ impl SearchDialog {
         }
         grid.attach(&checks, 0, 2, 2, 1);
 
-        let close = gtk::Button::with_mnemonic("S_chließen");
-        let replace_all_button = gtk::Button::with_mnemonic("_Alle ersetzen");
-        let replace_button = gtk::Button::with_mnemonic("_Ersetzen");
-        let find_button = gtk::Button::with_mnemonic("Su_chen");
+        // TRANSLATORS: Knöpfe im Such-/Ersetzen-Dialog; die Zugriffstasten
+        // dürfen sich nicht mit den Feldern darüber überschneiden.
+        let close = gtk::Button::with_mnemonic(&pgettext("Search dialog", "_Close"));
+        let replace_all_button = gtk::Button::with_mnemonic(&gettext("Replace _All"));
+        let replace_button = gtk::Button::with_mnemonic(&gettext("_Replace"));
+        let find_button = gtk::Button::with_mnemonic(&gettext("_Find"));
         find_button.add_css_class("suggested-action");
         let row = gtk::Box::new(gtk::Orientation::Horizontal, 6);
         row.set_halign(gtk::Align::End);
@@ -208,7 +215,7 @@ impl SearchDialog {
                 let Some(doc) = current() else { return };
                 match replace_one(&doc, &r.text()) {
                     Ok(_) => report(""),
-                    Err(e) => report(&format!("Ersetzen fehlgeschlagen: {}", e.message())),
+                    Err(e) => report(&replace_failed(&e)),
                 }
             });
         }
@@ -219,10 +226,14 @@ impl SearchDialog {
             replace_all_button.connect_clicked(move |_| {
                 let Some(doc) = current() else { return };
                 match replace_all(&doc, &r.text()) {
-                    Ok(0) => report("Nichts gefunden – nichts ersetzt."),
-                    Ok(1) => report("Ein Vorkommen ersetzt."),
-                    Ok(n) => report(&format!("{n} Vorkommen ersetzt.")),
-                    Err(e) => report(&format!("Ersetzen fehlgeschlagen: {}", e.message())),
+                    Ok(0) => report(&gettext("Nothing found – nothing replaced.")),
+                    Ok(n) => report(&ngettext_f(
+                        "Replaced one occurrence.",
+                        "Replaced {n} occurrences.",
+                        n,
+                        &[],
+                    )),
+                    Err(e) => report(&replace_failed(&e)),
                 }
             });
         }
@@ -265,13 +276,19 @@ impl SearchDialog {
     }
 }
 
+fn replace_failed(err: &glib::Error) -> String {
+    gettext_f("Replace failed: {error}", &[("error", err.message())])
+}
+
 /// Meldung für die Statuszeile.
 pub fn describe(found: Found, doc: &Document) -> String {
     let text = doc.search.settings().search_text().unwrap_or_default();
     match found {
-        Found::Yes { wrapped: true } => "Am Dokumentende neu begonnen.".to_string(),
+        Found::Yes { wrapped: true } => {
+            gettext("Reached the end of the document, continued from the beginning.")
+        }
         Found::Yes { wrapped: false } => String::new(),
-        Found::No => format!("„{text}“ nicht gefunden."),
-        Found::Empty => "Kein Suchbegriff.".to_string(),
+        Found::No => gettext_f("“{text}” not found.", &[("text", &text)]),
+        Found::Empty => gettext("No search text."),
     }
 }

@@ -7,10 +7,13 @@
 //!
 //! Eine Instanz je Sitzung (GApplication `org.querencia.Editor`): ein
 //! zweiter Aufruf öffnet seine Dateien als Reiter im laufenden Fenster.
+//!
+//! Oberflächentexte laufen über gettext (Modul `i18n`, Kataloge in `po/`).
 
 mod dialogs;
 mod document;
 mod editor;
+mod i18n;
 mod languages;
 mod search;
 
@@ -21,6 +24,7 @@ pub const APP_ID: &str = "org.querencia.Editor";
 pub const APP_NAME: &str = "Querencia Editor";
 
 fn main() -> glib::ExitCode {
+    i18n::init();
     let app = gtk::Application::builder()
         .application_id(APP_ID)
         .flags(gio::ApplicationFlags::HANDLES_OPEN)

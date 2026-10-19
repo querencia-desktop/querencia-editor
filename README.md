@@ -18,14 +18,15 @@ Stack wie Panel, Desktop, Terminal und Screenshot.
 | Hervorhebung | `.md .conf .ini .json .xml .sh .py .rs .c` fest zugeordnet, `.txt` reiner Text, alles andere nach GtkSourceView; Markdown als bearbeitbarer Text |
 | Suchen | Suchen (Strg+F), Weitersuchen (Strg+G), Rückwärts (Umschalt+Strg+G), Ersetzen (Strg+H) mit Groß-/Kleinschreibung, ganzen Wörtern, Umbruch; Gehe zu Zeile (Strg+I) |
 | Schutz | Rückfrage vor dem Schließen geänderter Dokumente (Reiter, Fenster, Beenden): Speichern / Abbrechen / Ohne Speichern schließen |
-| Sprache | deutsche Oberfläche |
+| Sprache | Deutsch und Englisch über GNU gettext (englische msgid, `po/de.po`); Auswahl wie üblich über `LANGUAGE`/`LANG` |
 
 Nicht vorhanden: Drucken, Werkzeugleiste, Seitenleiste, Plugins,
 Rechtschreibprüfung, Sitzungswiederherstellung, Einstellungsdialog.
 
-## Bauen, testen
+## Bauen, testen, übersetzen
 
-[BUILDING.md](BUILDING.md), [TESTING.md](TESTING.md).
+[BUILDING.md](BUILDING.md), [TESTING.md](TESTING.md). Übersetzungen und das
+Muster für die anderen Querencia-Programme: [docs/i18n-muster.md](docs/i18n-muster.md).
 
 ## Lizenz
 

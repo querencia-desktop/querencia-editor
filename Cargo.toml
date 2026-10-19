@@ -1,6 +1,6 @@
 [package]
 name = "querencia-editor"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2024"
 rust-version = "1.92"
 description = "Querencia Editor: klassischer Texteditor für Querencia Desktop (Prototyp)"
@@ -13,6 +13,9 @@ publish = false
 # und Laden/Speichern mit Zeichensatzerkennung.
 gtk = { package = "gtk4", version = "0.11", features = ["v4_12"] }
 sourceview5 = { version = "0.11", features = ["gtk_v4_12"] }
+# Übersetzungen über GNU gettext (po/, .mo unter share/locale). Feature
+# gettext-system: das gettext der glibc statt eines mitgebauten libintl.
+gettext-rs = { version = "0.8", features = ["gettext-system"] }
 
 [profile.release]
 lto = true

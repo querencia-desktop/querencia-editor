@@ -11,6 +11,7 @@ use gtk::prelude::*;
 use gtk::{gio, glib};
 use sourceview5::prelude::*;
 
+use crate::i18n::{gettext, gettext_f};
 use crate::languages;
 
 pub struct Document {
@@ -62,7 +63,7 @@ impl Document {
         let close_button = gtk::Button::from_icon_name("window-close");
         close_button.add_css_class("flat");
         close_button.add_css_class("qe-tab-close");
-        close_button.set_tooltip_text(Some("Dokument schließen"));
+        close_button.set_tooltip_text(Some(&gettext("Close document")));
         close_button.set_focus_on_click(false);
         let tab = gtk::Box::new(gtk::Orientation::Horizontal, 4);
         tab.append(&tab_label);
@@ -94,13 +95,16 @@ impl Document {
         doc
     }
 
-    /// Kurzname: Dateiname oder „Unbenanntes Dokument N“.
+    /// Kurzname: Dateiname oder „Unsaved Document N“ (deutsch „Unbenanntes
+    /// Dokument N“).
     pub fn short_name(&self) -> String {
         self.file
             .location()
             .and_then(|f| f.basename())
             .map(|p| p.to_string_lossy().into_owned())
-            .unwrap_or_else(|| format!("Unbenanntes Dokument {}", self.untitled))
+            .unwrap_or_else(|| {
+                gettext_f("Unsaved Document {n}", &[("n", &self.untitled.to_string())])
+            })
     }
 
     /// Vollständiger Name für Fenstertitel und Tooltip.

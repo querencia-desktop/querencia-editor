@@ -5,6 +5,8 @@
 //! andere entscheidet GtkSourceView selbst nach Dateiname und Inhaltstyp.
 //! `.txt` ist ausdrücklich reiner Text ohne Hervorhebung.
 
+use crate::i18n::gettext;
+
 /// Feste Zuordnung der Endungen; `Some(None)` heißt „reiner Text“.
 pub fn fixed_language_id(file_name: &str) -> Option<Option<&'static str>> {
     let ext = file_name.rsplit_once('.')?.1.to_ascii_lowercase();
@@ -33,12 +35,13 @@ pub fn language_for(file_name: &str, content_type: Option<&str>) -> Option<sourc
     }
 }
 
-/// Anzeigename für die Statuszeile („Normaler Text“ ohne Sprache).
+/// Anzeigename für die Statuszeile („Plain Text“ ohne Sprache). Die übrigen
+/// Namen übersetzt GtkSourceView selbst (Domäne gtksourceview-5).
 pub fn display_name(language: Option<&sourceview5::Language>) -> String {
     match language {
-        None => "Normaler Text".to_string(),
+        None => gettext("Plain Text"),
         // GtkSourceView nennt die INI-Sprache „.ini“.
-        Some(l) if l.id() == "ini" => "INI/Konfiguration".to_string(),
+        Some(l) if l.id() == "ini" => gettext("INI/Configuration"),
         Some(l) => l.name().to_string(),
     }
 }
