@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""po-Pflege für Querencia-Programme ohne installiertes GNU gettext.
+"""po-Pflege für Querencia-Programme, unabhängig von GNU gettext.
 
-Ersatz für xgettext/msgmerge/msgfmt, solange das Paket `gettext` auf der
-Entwicklungs-VM fehlt (keine apt-Aktionen erlaubt). Die Ausgaben sind mit
+Ersatz für xgettext/msgmerge/msgfmt (entstanden, als das Paket `gettext`
+auf der Entwicklungs-VM fehlte; xgettext liest Rust erst ab 0.24). Abgleich
+mit gettext 0.23.2: .mo inhaltsgleich, Desktop-Datei byte-gleich zu
+msgfmt --desktop. Die Ausgaben sind mit
 GNU gettext verträglich: .pot/.po im üblichen Format, .mo nach der
 GNU-Spezifikation (Magic 0x950412de, Revision 0, sortierte Schlüssel,
 Kontext als „ctxt\\x04msgid“, Pluralformen durch \\0 getrennt).
@@ -462,13 +464,16 @@ def cmd_desktop(root, src, dst):
                       if e["ctxt"] is None and e.get("plural") is None and translated(e)}
     out = []
     for line in open(src, encoding="utf-8"):
-        out.append(line)
+        # Wie msgfmt --desktop (GNU gettext 0.23): übersetzte Zeilen VOR dem
+        # Schlüssel, Sprachen alphabetisch – so erzeugen beide Werkzeuge
+        # byte-gleiche Dateien.
         m = re.match(r"^(%s)=(.*)$" % "|".join(DESKTOP_KEYS), line.rstrip("\n"))
         if m:
             for lang in sorted(cats):
                 t = cats[lang].get(m.group(2))
                 if t and t != m.group(2):
                     out.append(f"{m.group(1)}[{lang}]={t}\n")
+        out.append(line)
     with open(dst, "w", encoding="utf-8") as f:
         f.write("".join(out))
     print(f"{dst}: übersetzt aus {src}")

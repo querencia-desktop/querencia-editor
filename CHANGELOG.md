@@ -12,8 +12,9 @@
   Präfix bzw. `/usr/share/locale`.
 - Desktop-Datei aus `data/org.querencia.Editor.desktop.in` mit `[de]`-Zeilen;
   Menüname „Text Editor“/„Texteditor“ und MimeType wie live seit G2-E.
-- `werkzeug/i18n.py` (pot, update, mo, desktop, pruefen) ersetzt
-  xgettext/msgmerge/msgfmt, solange GNU gettext fehlt; Katalogtest in
+- `werkzeug/i18n.py` (pot, update, mo, desktop, pruefen) ohne Abhängigkeiten;
+  mit GNU gettext 0.23.2 abgeglichen (.mo inhaltsgleich, Desktop-Datei
+  byte-gleich zu `msgfmt --desktop`; xgettext liest Rust erst ab 0.24); Katalogtest in
   `cargo test`. Muster für die übrigen Programme: `docs/i18n-muster.md`.
 
 ## [unveröffentlicht] – G2-V (2026-10-19)

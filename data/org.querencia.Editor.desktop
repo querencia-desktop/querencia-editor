@@ -9,19 +9,19 @@
 # Formate (txt/conf/ini → text/plain, md, json, xml, sh, py, rs, c/h).
 Type=Application
 Version=1.5
-Name=Text Editor
 Name[de]=Texteditor
-GenericName=Text Editor
+Name=Text Editor
 GenericName[de]=Texteditor
-Comment=Edit text files
+GenericName=Text Editor
 Comment[de]=Textdateien bearbeiten
+Comment=Edit text files
 Exec=querencia-editor %U
 TryExec=querencia-editor
 Icon=org.querencia.Editor
 Terminal=false
 Categories=GTK;Utility;TextEditor;
 MimeType=text/plain;text/markdown;text/x-markdown;application/json;application/xml;text/xml;application/x-shellscript;text/x-shellscript;text/x-python;text/x-python3;text/rust;text/x-csrc;text/x-chdr;
-Keywords=Text;Editor;Notepad;Notes;
 Keywords[de]=Text;Editor;Texteditor;Notizen;
+Keywords=Text;Editor;Notepad;Notes;
 StartupNotify=true
 StartupWMClass=org.querencia.Editor

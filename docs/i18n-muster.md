@@ -132,10 +132,22 @@ Regeln:
 
 ## 4. Werkzeug und po-Pflege
 
-Auf der VM fehlt GNU gettext (`command -v msgfmt xgettext` liefert nichts,
-apt nur durch den Besitzer). Deshalb bringt das Repo `werkzeug/i18n.py` mit:
-reines Python, keine Abhängigkeiten. Die Ausgaben sind mit GNU gettext
-verträglich. Kopieren und `DOMAIN`/`PACKAGE` oben anpassen.
+Das Repo bringt `werkzeug/i18n.py` mit: reines Python, keine
+Abhängigkeiten. Es entstand, als GNU gettext auf der VM noch fehlte. Seit
+20.10. ist gettext 0.23.2 installiert; dessen `xgettext` kann aber erst ab
+0.24 Rust lesen. Deshalb bleibt `i18n.py pot` der Weg zur `.pot`. Abgleich
+mit gettext 0.23.2 (G2-AC):
+
+- `msgfmt -c po/de.po` ist fehlerfrei.
+- Die `.mo` aus `i18n.py` und aus `msgfmt` sind inhaltsgleich (`msgunfmt`).
+  Sie unterscheiden sich nur in der Hashtabelle und einem leeren Kopffeld.
+- Die Extraktion entspricht `xgettext -L C` mit denselben Schlüsselwörtern.
+  Ausnahme ist die Rust-Fortsetzungszeile `"…\n\`. `-L C` behält dort
+  fälschlich die Einrückung, `i18n.py` liest sie richtig.
+- `i18n.py desktop` ist byte-gleich mit `msgfmt --desktop`.
+- `msgcmp` meldet für `de.po` gegen `.pot` keine Abweichung.
+
+Kopieren und `DOMAIN`/`PACKAGE` oben anpassen.
 
 ```bash
 python3 werkzeug/i18n.py pot        # po/<domäne>.pot aus src/**/*.rs und data/*.desktop.in
@@ -162,8 +174,9 @@ python3 werkzeug/i18n.py mo <ziel>  # <ziel>/<lang>/LC_MESSAGES/<domäne>.mo
   msgfmt --desktop -d po --template data/org.querencia.Editor.desktop.in -o data/org.querencia.Editor.desktop
   ```
   `-k` schaltet die eingebauten Rust-Schlüsselwörter ab. Sonst würde
-  `gettext_f` je nach Version doppelt erfasst. Paketbedarf auf der VM:
-  `gettext` (msgfmt, xgettext, msgmerge).
+  `gettext_f` je nach Version doppelt erfasst. Für Pakete genügen
+  `msgfmt` und `msgfmt --desktop` aus gettext 0.23 (Debian/Ubuntu-Paket
+  `gettext`). Die `.pot` liegt erzeugt im Repo.
 - **Plural:** Kopf `Plural-Forms: nplurals=2; plural=(n != 1);` für de/en.
   Für weitere Sprachen die GNU-Tabelle nehmen (fr: `n > 1`; pl, ru, cs
   haben 3 Formen). `i18n.py update` setzt de/en/fr selbst. Andere Sprachen
