@@ -257,7 +257,7 @@ msgstr ""
 msgid "Open File"
 msgstr ""
 
-#: src/i18n.rs:137 src/i18n.rs:146 src/search.rs:230
+#: src/i18n.rs:137 src/i18n.rs:146 src/search.rs:290
 #, no-c-format
 msgid "Replaced one occurrence."
 msgid_plural "Replaced {n} occurrences."
@@ -272,74 +272,74 @@ msgstr ""
 msgid "INI/Configuration"
 msgstr ""
 
-#: src/search.rs:108
+#: src/search.rs:148
 msgid "Replace"
 msgstr ""
 
-#: src/search.rs:110
+#: src/search.rs:150
 msgid "Find"
 msgstr ""
 
-#: src/search.rs:122
+#: src/search.rs:161
 msgid "_Search for:"
 msgstr ""
 
-#: src/search.rs:137
+#: src/search.rs:178
 msgid "Replace _with:"
 msgstr ""
 
-#: src/search.rs:143
+#: src/search.rs:184
 msgid "_Match case"
 msgstr ""
 
-#: src/search.rs:144
+#: src/search.rs:185
 msgid "Match _entire word only"
 msgstr ""
 
-#: src/search.rs:145
+#: src/search.rs:186
 msgid "Search _backwards"
 msgstr ""
 
-#: src/search.rs:146
+#: src/search.rs:187
 msgid "Wra_p around"
 msgstr ""
 
 #. TRANSLATORS: Knöpfe im Such-/Ersetzen-Dialog; die Zugriffstasten dürfen sich nicht mit den Feldern darüber überschneiden.
-#: src/search.rs:158
+#: src/search.rs:200
 msgctxt "Search dialog"
 msgid "_Close"
 msgstr ""
 
-#: src/search.rs:159
+#: src/search.rs:201
 msgid "Replace _All"
 msgstr ""
 
-#: src/search.rs:160
+#: src/search.rs:202
 msgid "_Replace"
 msgstr ""
 
-#: src/search.rs:161
+#: src/search.rs:203
 msgid "_Find"
 msgstr ""
 
-#: src/search.rs:229
+#: src/search.rs:289
 msgid "Nothing found – nothing replaced."
 msgstr ""
 
-#: src/search.rs:280
+#: src/search.rs:355
 #, no-c-format
 msgid "Replace failed: {error}"
 msgstr ""
 
-#: src/search.rs:288
+#: src/search.rs:363
 msgid "Reached the end of the document, continued from the beginning."
 msgstr ""
 
-#: src/search.rs:291
+#: src/search.rs:366
 #, no-c-format
 msgid "“{text}” not found."
 msgstr ""
 
-#: src/search.rs:292
+#: src/search.rs:367
 msgid "No search text."
 msgstr ""
