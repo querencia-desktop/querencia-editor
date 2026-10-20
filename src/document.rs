@@ -32,24 +32,29 @@ pub struct Document {
     title_listeners: RefCell<Vec<Box<dyn Fn()>>>,
 }
 
-/// Farbschema der Textfläche passend zum Farbschema der Oberfläche
-/// (0.2.3): hell „classic“ wie bisher, dunkel dessen eingebaute dunkle
-/// Fassung „classic-dark“.
+/// Farbschema der Textfläche passend zur Ansicht des Themas (0.2.3): hell
+/// „classic“ wie bisher, dunkel dessen eingebaute dunkle Fassung
+/// „classic-dark“.
 pub fn style_scheme_id(dark: bool) -> &'static str {
     if dark { "classic-dark" } else { "classic" }
 }
 
-/// `gtk-interface-color-scheme` ist „dunkel“ (GTK ≥ 4.20; über den Namen
-/// gelesen, die Bindings sind auf 4.12 festgelegt).
-fn interface_is_dark() -> bool {
-    gtk::Settings::default()
-        .map(|s| s.property_value("gtk-interface-color-scheme"))
-        .and_then(|v| glib::EnumValue::from_value(&v).map(|(_, e)| e.nick() == "dark"))
+/// Die Ansicht des Themas ist dunkel: `@theme_base_color` (Grund von
+/// Listen und Textfeldern) hat eine geringe Leuchtdichte. Gefragt wird das
+/// Thema, nicht die Einstellung `gtk-interface-color-scheme`: ein Thema ohne
+/// dunkle Fassung (Querencia-Klassisch 0.1) bleibt bei „dunkel“ hell, und
+/// die Textfläche mit ihm.
+#[allow(deprecated)] // StyleContext::lookup_color: in GTK 4 der Weg zu benannten Farben
+fn theme_view_is_dark() -> bool {
+    gtk::Label::new(None)
+        .style_context()
+        .lookup_color("theme_base_color")
+        .map(|c| 0.2126 * c.red() + 0.7152 * c.green() + 0.0722 * c.blue() < 0.5)
         .unwrap_or(false)
 }
 
 fn apply_style_scheme(buffer: &sourceview5::Buffer) {
-    let id = style_scheme_id(interface_is_dark());
+    let id = style_scheme_id(theme_view_is_dark());
     if let Some(scheme) = sourceview5::StyleSchemeManager::default().scheme(id) {
         buffer.set_style_scheme(Some(&scheme));
     }
@@ -59,6 +64,9 @@ impl Document {
     /// Farbschema der Textfläche neu wählen (beim Wechsel im Lauf).
     pub fn follow_color_scheme(&self) {
         apply_style_scheme(&self.buffer);
+        // Die Zeilennummern neu zeichnen (sonst behält die Nummer der
+        // aktuellen Zeile die Kantenglättung des alten Grundes).
+        sourceview5::prelude::ViewExt::gutter(&self.view, gtk::TextWindowType::Left).queue_draw();
     }
 
     pub fn new(untitled: u32, settings: &sourceview5::SearchSettings) -> Rc<Self> {

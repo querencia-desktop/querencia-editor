@@ -12,10 +12,12 @@
   Wechsel im Lauf. Unter einem Thema ohne dunkle Fassung bleibt er hell.
   Eine Bindung des eigenen CssProviders an `gtk-interface-color-scheme` ist
   damit nicht nötig (isoliert gemessen).
-- Textfläche: hell wie bisher das GtkSourceView-Schema „classic“, unter
-  dunklem Farbschema dessen eingebaute dunkle Fassung „classic-dark“, auch
-  beim Wechsel im Lauf (Entscheidung 21.10., Variante B; ein eigenes Schema
-  passend zum Thema wäre ein Folgepunkt).
+- Textfläche: hell wie bisher das GtkSourceView-Schema „classic“, bei
+  dunkler Ansicht des Themas (`@theme_base_color`) dessen eingebaute dunkle
+  Fassung „classic-dark“, auch beim Wechsel im Lauf (Entscheidung 21.10.,
+  Variante B). Maßgeblich ist das Thema, nicht die Einstellung: unter einem
+  Thema ohne dunkle Fassung bleibt auch die Textfläche hell. Ein eigenes
+  Schema passend zum Thema ist Folgepunkt für Alpha 2.
 - Startfehler GTK 4.22 (QD-081): Nach dem Start meldet der Editor einmal
   `gtk-interface-color-scheme`; sonst bliebe ein unter „dunkel“ gestarteter
   Editor hell.
