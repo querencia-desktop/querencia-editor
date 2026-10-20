@@ -1,5 +1,18 @@
 # Änderungen – Querencia Editor
 
+## [0.2.2] – QD-076 (2026-10-20)
+
+- Das Fenster „Suchen“ bzw. „Ersetzen“ (Strg+F, Strg+H) wird bei jedem
+  Öffnen neu gebaut und beim Schließen zerstört, statt verborgen und wieder
+  gezeigt zu werden: labwc 0.9.8 verknüpft die Serverdekoration nur mit dem
+  ersten xdg_toplevel einer Fläche, GTK 4.22 legt beim Wiederzeigen ein
+  neues an – ab dem zweiten Öffnen fehlte die Titelleiste. Muster Bilder
+  0.2.3 (`WeakRef`, `destroy_with_parent`, Schließen im Leerlauf).
+- Suchbegriff, Ersetzungstext und „Rückwärts suchen“ bleiben über das
+  Schließen hinaus erhalten wie bisher; die übrigen Schalter kommen wie
+  bisher aus den gemeinsamen Sucheinstellungen. Texte und Katalog
+  unverändert.
+
 ## [0.2.1] – CSS-Welle (2026-10-20)
 
 - Auswahlschrift dunkel (`#1a1a1a` statt `#ffffff`) auf dem orangen Verlauf

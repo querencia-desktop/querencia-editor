@@ -261,7 +261,7 @@ msgstr "Speichern unter …"
 msgid "Open File"
 msgstr "Datei öffnen"
 
-#: src/i18n.rs:137 src/i18n.rs:146 src/search.rs:230
+#: src/i18n.rs:137 src/i18n.rs:146 src/search.rs:290
 #, no-c-format
 msgid "Replaced one occurrence."
 msgid_plural "Replaced {n} occurrences."
@@ -276,74 +276,74 @@ msgstr "Normaler Text"
 msgid "INI/Configuration"
 msgstr "INI/Konfiguration"
 
-#: src/search.rs:108
+#: src/search.rs:148
 msgid "Replace"
 msgstr "Ersetzen"
 
-#: src/search.rs:110
+#: src/search.rs:150
 msgid "Find"
 msgstr "Suchen"
 
-#: src/search.rs:122
+#: src/search.rs:161
 msgid "_Search for:"
 msgstr "_Suchen nach:"
 
-#: src/search.rs:137
+#: src/search.rs:178
 msgid "Replace _with:"
 msgstr "Ersetzen _durch:"
 
-#: src/search.rs:143
+#: src/search.rs:184
 msgid "_Match case"
 msgstr "_Groß-/Kleinschreibung beachten"
 
-#: src/search.rs:144
+#: src/search.rs:185
 msgid "Match _entire word only"
 msgstr "Nur ganze _Wörter"
 
-#: src/search.rs:145
+#: src/search.rs:186
 msgid "Search _backwards"
 msgstr "_Rückwärts suchen"
 
-#: src/search.rs:146
+#: src/search.rs:187
 msgid "Wra_p around"
 msgstr "Am _Ende neu beginnen"
 
 #. TRANSLATORS: Knöpfe im Such-/Ersetzen-Dialog; die Zugriffstasten dürfen sich nicht mit den Feldern darüber überschneiden.
-#: src/search.rs:158
+#: src/search.rs:200
 msgctxt "Search dialog"
 msgid "_Close"
 msgstr "S_chließen"
 
-#: src/search.rs:159
+#: src/search.rs:201
 msgid "Replace _All"
 msgstr "_Alle ersetzen"
 
-#: src/search.rs:160
+#: src/search.rs:202
 msgid "_Replace"
 msgstr "_Ersetzen"
 
-#: src/search.rs:161
+#: src/search.rs:203
 msgid "_Find"
 msgstr "Su_chen"
 
-#: src/search.rs:229
+#: src/search.rs:289
 msgid "Nothing found – nothing replaced."
 msgstr "Nichts gefunden – nichts ersetzt."
 
-#: src/search.rs:280
+#: src/search.rs:355
 #, no-c-format
 msgid "Replace failed: {error}"
 msgstr "Ersetzen fehlgeschlagen: {error}"
 
-#: src/search.rs:288
+#: src/search.rs:363
 msgid "Reached the end of the document, continued from the beginning."
 msgstr "Am Dokumentende neu begonnen."
 
-#: src/search.rs:291
+#: src/search.rs:366
 #, no-c-format
 msgid "“{text}” not found."
 msgstr "„{text}“ nicht gefunden."
 
-#: src/search.rs:292
+#: src/search.rs:367
 msgid "No search text."
 msgstr "Kein Suchbegriff."

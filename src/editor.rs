@@ -569,8 +569,8 @@ impl Editor {
                 .find(|d| d.is_modified() && !answered.borrow().iter().any(|a| Rc::ptr_eq(a, d)))
                 .cloned();
             let Some(doc) = pending else {
-                // Versteckte Such-Dialoge gehören zur Anwendung und hielten
-                // sie sonst am Leben.
+                // Offene Such-Dialoge gehören zur Anwendung und hielten sie
+                // sonst am Leben.
                 for slot in [&e.find_dialog, &e.replace_dialog] {
                     if let Some(d) = slot.borrow_mut().take() {
                         d.destroy();

@@ -5,6 +5,7 @@
 //! Weitersuchen (Strg+G) und Rückwärts suchen (Umschalt+Strg+G) nutzen
 //! denselben Suchbegriff ohne Dialog.
 
+use std::cell::{Cell, RefCell};
 use std::rc::Rc;
 
 use gtk::prelude::*;
@@ -89,9 +90,26 @@ pub fn replace_all(doc: &Document, replacement: &str) -> Result<u32, glib::Error
 
 /// Der Such- bzw. Ersetzen-Dialog. `current` liefert das aktive Dokument,
 /// `report` schreibt eine Meldung in die Statuszeile.
+///
+/// Das Fenster wird bei jedem Öffnen neu gebaut und beim Schließen zerstört,
+/// nicht verborgen: Ein verborgenes und wieder gezeigtes GTK-4.22-Fenster hat
+/// in labwc 0.9.8 keine Titelleiste mehr (QD-076, Muster Bilder 0.2.3). Was
+/// das Fenster bisher über das Schließen hinaus behielt (Suchbegriff,
+/// Ersetzungstext, „Rückwärts suchen“), steht deshalb hier; die übrigen
+/// Schalter liegen ohnehin in den gemeinsamen Sucheinstellungen.
 pub struct SearchDialog {
-    window: gtk::Window,
-    find_entry: gtk::Entry,
+    parent: glib::WeakRef<gtk::Window>,
+    settings: sourceview5::SearchSettings,
+    replace: bool,
+    current: Rc<dyn Fn() -> Option<Rc<Document>>>,
+    report: Rc<dyn Fn(&str)>,
+    /// Das offene Fenster (höchstens eines), nur schwach gehalten: Nach dem
+    /// Schließen gibt GTK es frei, der Platz ist dann leer.
+    window: glib::WeakRef<gtk::Window>,
+    find_entry: glib::WeakRef<gtk::Entry>,
+    find_text: RefCell<String>,
+    replace_text: RefCell<String>,
+    backward: Cell<bool>,
 }
 
 impl SearchDialog {
@@ -102,15 +120,36 @@ impl SearchDialog {
         current: Rc<dyn Fn() -> Option<Rc<Document>>>,
         report: Rc<dyn Fn(&str)>,
     ) -> Rc<Self> {
+        let parent_ref = glib::WeakRef::new();
+        parent_ref.set(Some(parent.upcast_ref::<gtk::Window>()));
+        Rc::new(Self {
+            parent: parent_ref,
+            settings: settings.clone(),
+            replace,
+            current,
+            report,
+            window: glib::WeakRef::new(),
+            find_entry: glib::WeakRef::new(),
+            find_text: RefCell::new(String::new()),
+            replace_text: RefCell::new(String::new()),
+            backward: Cell::new(false),
+        })
+    }
+
+    /// Baut das Fenster mit dem behaltenen Zustand; die Handler halten den
+    /// Dialog nur schwach.
+    fn build(self: &Rc<Self>, parent: &gtk::Window) -> (gtk::Window, gtk::Entry) {
+        let replace = self.replace;
+        let settings = &self.settings;
         let window = gtk::Window::builder()
             .transient_for(parent)
+            .destroy_with_parent(true)
             .title(if replace {
                 gettext("Replace")
             } else {
                 gettext("Find")
             })
             .resizable(false)
-            .hide_on_close(true)
             .build();
         window.add_css_class("qe-dialog");
         crate::dialogs::attach_to_app(&window, parent);
@@ -125,6 +164,7 @@ impl SearchDialog {
             .hexpand(true)
             .width_chars(30)
             .activates_default(true)
+            .text(self.find_text.borrow().as_str())
             .build();
         find_label.set_mnemonic_widget(Some(&find_entry));
         grid.attach(&find_label, 0, 0, 1, 1);
@@ -132,6 +172,7 @@ impl SearchDialog {
         let replace_entry = gtk::Entry::builder()
             .hexpand(true)
             .activates_default(true)
+            .text(self.replace_text.borrow().as_str())
             .build();
         if replace {
             let l = gtk::Label::with_mnemonic(&gettext("Replace _with:"));
@@ -146,6 +187,7 @@ impl SearchDialog {
         let wrap = gtk::CheckButton::with_mnemonic(&gettext("Wra_p around"));
         case.set_active(settings.is_case_sensitive());
         words.set_active(settings.is_at_word_boundaries());
+        backward.set_active(self.backward.get());
         wrap.set_active(settings.wraps_around());
         let checks = gtk::Box::new(gtk::Orientation::Vertical, 2);
         for c in [&case, &words, &backward, &wrap] {
@@ -186,7 +228,16 @@ impl SearchDialog {
         words.connect_toggled(move |c| s.set_at_word_boundaries(c.is_active()));
         let s = settings.clone();
         wrap.connect_toggled(move |c| s.set_wrap_around(c.is_active()));
+        let me = Rc::downgrade(self);
+        backward.connect_toggled(move |c| {
+            if let Some(me) = me.upgrade() {
+                me.backward.set(c.is_active());
+            }
+        });
+        // Erst nach dem Vorbelegen verbunden: Das Wiederöffnen ändert den
+        // Suchbegriff so wenig wie früher das Wiederzeigen.
         let s = settings.clone();
+        let me = Rc::downgrade(self);
         find_entry.connect_changed(move |e| {
             let text = e.text();
             s.set_search_text(if text.is_empty() {
@@ -194,11 +245,20 @@ impl SearchDialog {
             } else {
                 Some(text.as_str())
             });
+            if let Some(me) = me.upgrade() {
+                me.find_text.replace(text.to_string());
+            }
+        });
+        let me = Rc::downgrade(self);
+        replace_entry.connect_changed(move |e| {
+            if let Some(me) = me.upgrade() {
+                me.replace_text.replace(e.text().to_string());
+            }
         });
 
         let do_find = {
-            let current = current.clone();
-            let report = report.clone();
+            let current = self.current.clone();
+            let report = self.report.clone();
             let backward = backward.clone();
             move || {
                 let Some(doc) = current() else { return };
@@ -208,8 +268,8 @@ impl SearchDialog {
         let f = do_find.clone();
         find_button.connect_clicked(move |_| f());
         {
-            let current = current.clone();
-            let report = report.clone();
+            let current = self.current.clone();
+            let report = self.report.clone();
             let r = replace_entry.clone();
             replace_button.connect_clicked(move |_| {
                 let Some(doc) = current() else { return };
@@ -220,8 +280,8 @@ impl SearchDialog {
             });
         }
         {
-            let current = current.clone();
-            let report = report.clone();
+            let current = self.current.clone();
+            let report = self.report.clone();
             let r = replace_entry.clone();
             replace_all_button.connect_clicked(move |_| {
                 let Some(doc) = current() else { return };
@@ -258,21 +318,36 @@ impl SearchDialog {
         });
         window.add_controller(keys);
 
-        Rc::new(Self { window, find_entry })
+        self.window.set(Some(&window));
+        self.find_entry.set(Some(&find_entry));
+        (window, find_entry)
     }
 
-    /// Fenster endgültig schließen (beim Beenden; sonst wird es nur versteckt).
+    /// Offenes Fenster schließen (beim Beenden des Editors).
     pub fn destroy(&self) {
-        self.window.destroy();
+        if let Some(w) = self.window.upgrade() {
+            w.destroy();
+        }
     }
 
-    /// Zeigen; `initial` (z. B. die Auswahl) wird als Suchbegriff vorbelegt.
-    pub fn show(&self, initial: Option<&str>) {
+    /// Zeigen; ist das Fenster zu, wird es neu gebaut. `initial` (z. B. die
+    /// Auswahl) wird als Suchbegriff vorbelegt.
+    pub fn show(self: &Rc<Self>, initial: Option<&str>) {
+        let open = self.window.upgrade().zip(self.find_entry.upgrade());
+        let (window, find_entry) = match open {
+            Some(open) => open,
+            None => {
+                let Some(parent) = self.parent.upgrade() else {
+                    return;
+                };
+                self.build(&parent)
+            }
+        };
         if let Some(text) = initial.filter(|t| !t.is_empty() && !t.contains('\n')) {
-            self.find_entry.set_text(text);
+            find_entry.set_text(text);
         }
-        self.window.present();
-        self.find_entry.grab_focus();
+        window.present();
+        find_entry.grab_focus();
     }
 }
 
