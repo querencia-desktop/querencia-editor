@@ -32,14 +32,40 @@ pub struct Document {
     title_listeners: RefCell<Vec<Box<dyn Fn()>>>,
 }
 
+/// Farbschema der Textfläche passend zum Farbschema der Oberfläche
+/// (0.2.3): hell „classic“ wie bisher, dunkel dessen eingebaute dunkle
+/// Fassung „classic-dark“.
+pub fn style_scheme_id(dark: bool) -> &'static str {
+    if dark { "classic-dark" } else { "classic" }
+}
+
+/// `gtk-interface-color-scheme` ist „dunkel“ (GTK ≥ 4.20; über den Namen
+/// gelesen, die Bindings sind auf 4.12 festgelegt).
+fn interface_is_dark() -> bool {
+    gtk::Settings::default()
+        .map(|s| s.property_value("gtk-interface-color-scheme"))
+        .and_then(|v| glib::EnumValue::from_value(&v).map(|(_, e)| e.nick() == "dark"))
+        .unwrap_or(false)
+}
+
+fn apply_style_scheme(buffer: &sourceview5::Buffer) {
+    let id = style_scheme_id(interface_is_dark());
+    if let Some(scheme) = sourceview5::StyleSchemeManager::default().scheme(id) {
+        buffer.set_style_scheme(Some(&scheme));
+    }
+}
+
 impl Document {
+    /// Farbschema der Textfläche neu wählen (beim Wechsel im Lauf).
+    pub fn follow_color_scheme(&self) {
+        apply_style_scheme(&self.buffer);
+    }
+
     pub fn new(untitled: u32, settings: &sourceview5::SearchSettings) -> Rc<Self> {
         let buffer = sourceview5::Buffer::new(None::<&gtk::TextTagTable>);
         buffer.set_highlight_syntax(true);
         buffer.set_highlight_matching_brackets(true);
-        if let Some(scheme) = sourceview5::StyleSchemeManager::default().scheme("classic") {
-            buffer.set_style_scheme(Some(&scheme));
-        }
+        apply_style_scheme(&buffer);
         let view = sourceview5::View::with_buffer(&buffer);
         // Voreinstellungen wie gedit 2.30: Zeilennummern, automatische
         // Einrückung, Tabulatorbreite 8, Tabulatoren statt Leerzeichen.
@@ -226,5 +252,16 @@ impl Document {
         self.view
             .scroll_to_mark(&self.buffer.get_insert(), 0.0, true, 0.0, 0.3);
         true
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::style_scheme_id;
+
+    #[test]
+    fn text_area_follows_the_interface_color_scheme() {
+        assert_eq!(style_scheme_id(false), "classic");
+        assert_eq!(style_scheme_id(true), "classic-dark");
     }
 }

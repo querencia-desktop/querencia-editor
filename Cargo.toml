@@ -1,6 +1,6 @@
 [package]
 name = "querencia-editor"
-version = "0.2.2"
+version = "0.2.3"
 edition = "2024"
 rust-version = "1.92"
 description = "Querencia Editor: klassischer Texteditor für Querencia Desktop (Prototyp)"

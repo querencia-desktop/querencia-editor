@@ -1,5 +1,34 @@
 # Änderungen – Querencia Editor
 
+## [0.2.3] – CSS-Welle dunkel, Zugriffstasten (2026-10-21)
+
+- Dunkle Darstellung: Menüleiste und Menüs nehmen ihre Farben ganz aus dem
+  Thema Querencia-Klassisch (die gestrichenen festen Werte waren dessen helle
+  Werte). Reiterleiste, aktiver Reiter und Statusleiste nehmen die benannten
+  Farben des Themas (`@theme_bg_color`, `@theme_base_color`,
+  `@theme_fg_color`, `@borders`) statt fester Hellfarben. Hell bleibt alles
+  pixelgleich; mit der dunklen Fassung des Themas (0.2) und „Dunkle
+  Darstellung bevorzugen“ wird der Editor dunkel, beim Start wie beim
+  Wechsel im Lauf. Unter einem Thema ohne dunkle Fassung bleibt er hell.
+  Eine Bindung des eigenen CssProviders an `gtk-interface-color-scheme` ist
+  damit nicht nötig (isoliert gemessen).
+- Textfläche: hell wie bisher das GtkSourceView-Schema „classic“, unter
+  dunklem Farbschema dessen eingebaute dunkle Fassung „classic-dark“, auch
+  beim Wechsel im Lauf (Entscheidung 21.10., Variante B; ein eigenes Schema
+  passend zum Thema wäre ein Folgepunkt).
+- Startfehler GTK 4.22 (QD-081): Nach dem Start meldet der Editor einmal
+  `gtk-interface-color-scheme`; sonst bliebe ein unter „dunkel“ gestarteter
+  Editor hell.
+- Deutsche Zugriffstasten im Such- und Ersetzen-Dialog eindeutig
+  (Entscheidung 20.10., QD-076-Nebenbefund): „Schl_ießen“, „_Suchen“,
+  „Am Ende _neu beginnen“, dazu „Su_chen nach:“ (sonst S doppelt); „_Ersetzen“
+  bleibt. Vorher teilten „S_chließen“/„Su_chen“ das C und „Am _Ende neu
+  beginnen“/„_Ersetzen“ das E – Alt+C schloss den Dialog nicht.
+- `werkzeug/i18n.py pruefen` meldet doppelte Zugriffstasten je Dialog und
+  Menü (`MNEMONIC_GROUPS`, in der msgid und jeder Übersetzung); Tests in
+  `werkzeug/test_i18n.py` (mit dem Stand 0.2.2 und „Feld gegen Knopf“ als
+  Negativfällen).
+
 ## [0.2.2] – QD-076 (2026-10-20)
 
 - Das Fenster „Suchen“ bzw. „Ersetzen“ (Strg+F, Strg+H) wird bei jedem

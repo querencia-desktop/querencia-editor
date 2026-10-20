@@ -278,6 +278,17 @@ impl Editor {
             }
             glib::Propagation::Stop
         });
+        // 0.2.3: Textflächen folgen einem Wechsel des Farbschemas im Lauf.
+        if let Some(settings) = gtk::Settings::default() {
+            let weak = Rc::downgrade(&editor);
+            settings.connect_notify_local(Some("gtk-interface-color-scheme"), move |_, _| {
+                if let Some(e) = weak.upgrade() {
+                    for d in e.docs.borrow().iter() {
+                        d.follow_color_scheme();
+                    }
+                }
+            });
+        }
         editor
     }
 
