@@ -64,9 +64,6 @@ impl Document {
     /// Farbschema der Textfläche neu wählen (beim Wechsel im Lauf).
     pub fn follow_color_scheme(&self) {
         apply_style_scheme(&self.buffer);
-        // Die Zeilennummern neu zeichnen (sonst behält die Nummer der
-        // aktuellen Zeile die Kantenglättung des alten Grundes).
-        sourceview5::prelude::ViewExt::gutter(&self.view, gtk::TextWindowType::Left).queue_draw();
     }
 
     pub fn new(untitled: u32, settings: &sourceview5::SearchSettings) -> Rc<Self> {
