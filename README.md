@@ -1,17 +1,17 @@
 # Querencia Editor
 
-Klassischer Texteditor mit Reitern für Querencia Desktop nach dem Vorbild von
-gedit 2.30 (GNOME 2), geschrieben in Rust mit GTK 4 und GtkSourceView 5 ohne
-libadwaita. Teil von Querencia Desktop – einer klassischen Desktopumgebung im
-GNOME-2-Stil für Wayland (labwc).
+Klassischer Texteditor mit Reitern für alle, die Querencia Desktop benutzen.
+Teil von [Querencia Desktop](https://github.com/querencia-desktop/querencia) –
+einer klassischen Desktopumgebung im GNOME-2-Stil für Wayland (labwc, Rust,
+GTK 4).
 
 *English summary:* A classic tabbed text editor modelled on GNOME 2's gedit
-2.30, built with GTK 4 and GtkSourceView 5. Part of Querencia Desktop. Alpha
-software; documentation is in German, the user interface is available in
-English and German.
+2.30, built with GTK 4 and GtkSourceView 5. Part of Querencia Desktop, a
+classic GNOME-2-style desktop for Wayland. Alpha software; documentation is
+in German, the user interface is available in English and German.
 
-> **Alpha.** Kein Drucken, keine Werkzeugleiste, keine Plugins. Keine
-> Sicherheits- oder Datenverlustgarantie.
+> **Alpha.** Prototyp: kein Drucken, keine Werkzeugleiste, keine Plugins.
+> Keine Sicherheits- oder Datenverlustgarantie.
 
 ## Zweck
 
@@ -22,41 +22,102 @@ English and German.
   Zeilennummern, automatische Einrückung, Klammerhervorhebung, optionaler
   Zeilenumbruch; Hervorhebung über GtkSourceView (`.md .conf .ini .json .xml
   .sh .py .rs .c` fest zugeordnet, `.txt` als reiner Text).
-- Suchen (Strg+F), Weitersuchen (Strg+G), Rückwärts (Umschalt+Strg+G),
-  Ersetzen (Strg+H), Gehe zu Zeile (Strg+I); Rückfrage vor dem Schließen
-  geänderter Dokumente.
-- Oberfläche Englisch und Deutsch über GNU gettext (englische msgid,
+- Suchen (Strg+F), Weitersuchen (Strg+G), Ersetzen (Strg+H), Gehe zu Zeile
+  (Strg+I); Rückfrage vor dem Schließen geänderter Dokumente.
+- Oberfläche auf Englisch und Deutsch über GNU gettext (englische msgid,
   `po/de.po`); Auswahl über `LANGUAGE`/`LANG`.
 - Bewusst **nicht** Teil dieses Programms: Drucken, Werkzeugleiste,
   Seitenleiste, Plugins, Rechtschreibprüfung, Sitzungswiederherstellung,
   Einstellungsdialog.
 
-App-ID `org.querencia.Editor` · Binary `querencia-editor` · Debian-Paket:
-noch keins in diesem Repo (Paketierung im Packaging-Repo).
+Anwendungskennung (App-ID): `org.querencia.Editor` · Binary:
+`querencia-editor` · Debian-Paket: `querencia-editor`
+
+| Datei | Inhalt |
+|---|---|
+| `src/` | Fenster, Reiter, Dokumente, Suchen/Ersetzen, Sprachen, Übersetzung (`i18n.rs`) |
+| `po/` | Vorlage `querencia-editor.pot`, Deutsch `de.po` |
+| `data/` | Desktop-Datei (aus `.desktop.in`), Programm- und Fenstersymbol (ohne 48×48), Querencia-Logo, eingebettete Ressource |
+| `werkzeug/i18n.py` | Kataloge prüfen und erzeugen ohne GNU gettext (`pot`, `update`, `mo`, `desktop`, `pruefen`) |
+| `docs/` | Bauen, Prüfen, Muster für die Mehrsprachigkeit (`i18n-muster.md`) |
 
 ## Stand
 
 | | |
 |---|---|
 | Version | 0.2.3 (Tag `editor/0.2.3`; dunkeltauglich, eindeutige deutsche Zugriffstasten im Such-/Ersetzen-Dialog) |
-| Auf der Entwicklungs-VM | live ist 0.2.3 (seit 21.10.2026); die dunkle Darstellung wirkt erst mit Thema 0.2 |
 | Letzte Prüfung | 21.10.2026: 7 Unit-Tests (1 GUI-Test `#[ignore]`), `i18n.py pruefen` (75 Texte, Zugriffstasten je Dialog), 10 Tests `werkzeug/test_i18n.py`; isoliert 19 Läufe hell/dunkel Deutsch und Englisch bei 1024×768 und 1920×1080, hell pixelgleich zu 0.2.2 |
-| Bekannte Lücken | isolierte GUI-Prüfung liegt noch nicht in diesem Repo ([docs/testing.md](docs/testing.md)); MetaInfo ohne Übersetzung |
+| Bekannte Lücken | siehe „Zweck“; die isolierte GUI-Prüfung liegt noch nicht in diesem Repo (docs/testing.md); MetaInfo ohne Übersetzung |
 | Getestet auf | Ubuntu 26.04, labwc 0.9.8, GTK 4.22, Rust 1.93.1 |
+| Nicht getestet | andere Distributionen, HiDPI, Mehrmonitor |
 
-Änderungen je Version: [CHANGELOG.md](CHANGELOG.md).
+Änderungen: [CHANGELOG.md](CHANGELOG.md).
 
-## Bauen und Prüfen
+## Bauen
 
-`cargo build --release --locked`, danach `cargo fmt --all --check`, `cargo clippy --all-targets --locked -- -D warnings`, `cargo test --locked` und `python3 werkzeug/i18n.py pruefen`.
-Voraussetzungen, Übersetzungskataloge und die isolierte GUI-Prüfung: [docs/building.md](docs/building.md), [docs/testing.md](docs/testing.md), Mehrsprachigkeit [docs/i18n-muster.md](docs/i18n-muster.md).
+Voraussetzungen (Ubuntu 26.04):
+
+```bash
+sudo apt install build-essential pkg-config rustc cargo libgtk-4-dev libgtksourceview-5-dev
+```
+
+```bash
+cargo build --release --locked
+```
+
+Das Ergebnis liegt unter `target/release/querencia-editor`. Übersetzungen,
+Ablage der Kataloge und Symbolgrößen: [docs/building.md](docs/building.md).
+
+## Prüfen
+
+```bash
+cargo fmt --all --check
+cargo clippy --all-targets --locked -- -D warnings
+cargo test --locked
+python3 werkzeug/i18n.py pruefen
+```
+
+Diese Befehle laufen ohne Bildschirm; die ersten drei sind auch die CI
+(`.github/workflows/ci.yml`). Die **GUI-Prüfung** läuft in einer
+abgeschotteten Sitzung (eigener labwc ohne Bildschirm, eigenes `HOME` und
+`XDG_RUNTIME_DIR`), niemals in der laufenden Desktopsitzung; ihr Werkzeug
+liegt noch außerhalb dieses Repos.
+
+Fälle und Ablauf: [docs/testing.md](docs/testing.md). Arbeitsweise insgesamt:
+[CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Vorbild und Abgrenzung
+
+Vorbild für Bedienung und Aussehen ist **gedit 2.30 aus GNOME 2.30**.
+Querencia übernimmt davon die Bedienideen (Menüs, Kürzel, Anordnung) und den
+englischen Wortschatz der Menüs, **keinen Quellcode, keine Grafiken**; aus
+Pluma, Xed oder Mousepad wurde kein Code und kein Text übernommen. Das Projekt
+ist mit gedit, GNOME und deren Autoren weder verbunden noch von ihnen
+unterstützt.
+
+Abweichungen vom Vorbild und Dinge, die bewusst fehlen:
+
+- GTK 4 und GtkSourceView 5 statt GTK 2, Fensterrahmen vom Compositor
+  (labwc), kein libadwaita.
+- Kein Drucken, keine Plugins, keine Seitenleiste.
+
+Fremdbestandteile: nur Rust-Abhängigkeiten (gtk4-rs, sourceview5, gettext-rs
+und Umfeld) unter MIT, MIT OR Apache-2.0, Apache-2.0, Apache-2.0 WITH
+LLVM-exception, Unicode-3.0 und Unlicense OR MIT; Liste mit
+`cargo metadata --locked`. Dynamisch gelinkt: GTK 4, GtkSourceView 5 und das
+gettext der glibc.
 
 ## Lizenz
 
-Programm: GPL-3.0-or-later, siehe [LICENSE](LICENSE) (reiner Lizenztext).
-Copyright 2026 Querencia Desktop contributors; Urheberhinweis in
-[COPYRIGHT](COPYRIGHT). Eigener Code; aus gedit, Pluma, Xed oder Mousepad
-wurde kein Code und kein Text übernommen. Das Querencia-Logo in `data/logo/`
-ist unverändert übernommen (Prüfsummen in `data/logo/SHA256SUMS.herkunft`).
-Name und Logo „Querencia“ sind keine freien Inhalte (Markenregel).
+Programm: GPL-3.0-or-later, siehe [LICENSE](LICENSE). Copyright 2026
+Querencia Desktop contributors; Urheberhinweis in
+[COPYRIGHT](COPYRIGHT). Das Querencia-Logo in `data/logo/` ist unverändert
+übernommen (Prüfsummen in `data/logo/SHA256SUMS.herkunft`).
 
+Name und Logo „Querencia“ sind keine freien Inhalte: [MARKE.md](MARKE.md).
+
+## Fehler melden
+
+Fehler, Wünsche und Fragen zu Querencia gehen an die gemeinsame Meldestelle:
+<https://github.com/querencia-desktop/querencia/issues/new/choose>.
+Sicherheitslücken bitte nicht öffentlich melden, siehe [SECURITY.md](SECURITY.md).

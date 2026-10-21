@@ -79,7 +79,7 @@ mod tests {
 }
 
 /// Braucht ein Display: läuft nur in der isolierten Sitzung
-/// (`cargo test -- --ignored`, siehe TESTING.md).
+/// (`cargo test -- --ignored`, siehe docs/testing.md).
 #[cfg(test)]
 mod gui_tests {
     use super::*;
