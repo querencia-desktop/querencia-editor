@@ -6,7 +6,7 @@ GTK 4 über gtk-rs 0.11, ohne libadwaita) übersetzbar wird. Je Programm
 reicht danach ein kleiner Auftrag: „i18n nach `docs/i18n-muster.md` des
 Editors, Zielsprachen de (+ en als msgid)“.
 
-Entscheidungen (pottrauschen, 19.10.2026; Status-Session):
+Entscheidungen (19.10.2026):
 
 - **GNU gettext** mit `.po`/`.mo` wie GNOME 2 und Debian. Ausnahme: Files
   (Strata-Fork) bleibt bei `rust-i18n`.

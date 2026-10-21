@@ -1,9 +1,11 @@
 # Querencia Editor
 
 Klassischer Texteditor mit Reitern für alle, die Querencia Desktop benutzen.
-Teil von [Querencia Desktop](https://github.com/querencia-desktop/querencia) –
+Teil von [Querencia Desktop](https://querencialinux.org) –
 einer klassischen Desktopumgebung im GNOME-2-Stil für Wayland (labwc, Rust,
 GTK 4).
+Installiert wird es zusammen mit Querencia Desktop aus der APT-Quelle;
+Anleitung auf <https://querencialinux.org>.
 
 *English summary:* A classic tabbed text editor modelled on GNOME 2's gedit
 2.30, built with GTK 4 and GtkSourceView 5. Part of Querencia Desktop, a
