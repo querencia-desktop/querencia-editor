@@ -4,7 +4,9 @@
 cargo fmt --all --check
 cargo clippy --all-targets --locked -- -D warnings
 cargo test --locked                       # ohne Display, mit Katalogtest de.po
-python3 werkzeug/i18n.py pruefen          # .pot aktuell, de.po vollständig, Platzhalter, Zugriffstasten
+python3 werkzeug/i18n.py pruefen          # .pot aktuell, de.po vollständig, Platzhalter, Zugriffstasten,
+                                          # keine Zugriffstaste doppelt je Dialog/Menü (MNEMONIC_GROUPS)
+python3 -I -B werkzeug/test_i18n.py       # Tests der Prüfung (Doppelungen, unbekannte msgid)
 ```
 
 Mehrsprachige GUI-Prüfung (G2-AC, je `LANGUAGE=de` mit `LANG=en_US.UTF-8`

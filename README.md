@@ -38,9 +38,9 @@ noch keins in diesem Repo (Paketierung im Packaging-Repo).
 
 | | |
 |---|---|
-| Version | 0.2.1 (Tag `editor/0.2.1`; ändert gegenüber 0.2.0 nur die Auswahlfarbe der Schrift) |
-| Auf der Entwicklungs-VM | live seit 20.10.2026 |
-| Letzte Prüfung | 20.10.2026: 6 Unit-Tests (1 GUI-Test `#[ignore]`), `i18n.py pruefen` (75 Texte); isolierte GUI-Prüfung Deutsch und Englisch je 11 Fälle bei 1024×768 und 1920×1080 |
+| Version | 0.2.3 (Tag `editor/0.2.3`; dunkeltauglich, eindeutige deutsche Zugriffstasten im Such-/Ersetzen-Dialog) |
+| Auf der Entwicklungs-VM | live ist 0.2.2 (seit 20.10.2026); 0.2.3 wartet auf Freigabe, die dunkle Darstellung erst mit Thema 0.2 |
+| Letzte Prüfung | 21.10.2026: 7 Unit-Tests (1 GUI-Test `#[ignore]`), `i18n.py pruefen` (75 Texte, Zugriffstasten je Dialog), 10 Tests `werkzeug/test_i18n.py`; isoliert 19 Läufe hell/dunkel Deutsch und Englisch bei 1024×768 und 1920×1080, hell pixelgleich zu 0.2.2 |
 | Bekannte Lücken | isolierte GUI-Prüfung liegt noch nicht in diesem Repo ([docs/testing.md](docs/testing.md)); MetaInfo ohne Übersetzung |
 | Getestet auf | Ubuntu 26.04, labwc 0.9.8, GTK 4.22, Rust 1.93.1 |
 

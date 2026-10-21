@@ -14,7 +14,8 @@ Aufruf (im Repo-Wurzelverzeichnis):
   i18n.py update                  jede po/<lang>.po an die .pot anpassen (msgmerge ohne Fuzzy)
   i18n.py mo <ziel>               <ziel>/<lang>/LC_MESSAGES/<domäne>.mo für jede po/LINGUAS-Sprache
   i18n.py desktop <ein.in> <aus>  Desktop-Datei mit Name[lang]= usw. (wie msgfmt --desktop)
-  i18n.py pruefen                 .pot aktuell, alle .po vollständig, Platzhalter und Zugriffstasten stimmen
+  i18n.py pruefen                 .pot aktuell, alle .po vollständig, Platzhalter und Zugriffstasten stimmen,
+                                  keine Zugriffstaste doppelt je Dialog/Menü (MNEMONIC_GROUPS)
 
 Erkannte Aufrufe in Rust: gettext("…"), gettext_f("…", …), ngettext("…", "…", n),
 ngettext_f("…", "…", n, …), pgettext("ctx", "…"). Ein Kommentar
@@ -487,6 +488,87 @@ def mnemonic(s):
     return len(re.findall(r"(?<!_)_(?=[^_\s])", s))
 
 
+# Gleichzeitig sichtbare Zugriffstasten (ein Dialog, ein Menü): je Gruppe
+# darf jede Taste nur einmal vorkommen, in der msgid wie in jeder
+# Übersetzung – sonst springt Alt+Taste nur zwischen den Elementen, statt
+# auszulösen. Einträge (msgctxt, msgid); ein Fenster, das je nach Fall mehr
+# zeigt, steht mit jedem Umfang als eigene Gruppe da (Ersetzen ⊃ Suchen).
+MNEMONIC_GROUPS = {
+    "Dialog Suchen (src/search.rs)": [
+        (None, "_Search for:"), (None, "_Match case"), (None, "Match _entire word only"),
+        (None, "Search _backwards"), (None, "Wra_p around"),
+        ("Search dialog", "_Close"), (None, "_Find"),
+    ],
+    "Dialog Ersetzen (src/search.rs)": [
+        (None, "_Search for:"), (None, "Replace _with:"), (None, "_Match case"),
+        (None, "Match _entire word only"), (None, "Search _backwards"), (None, "Wra_p around"),
+        ("Search dialog", "_Close"), (None, "Replace _All"), (None, "_Replace"), (None, "_Find"),
+    ],
+    "Dialog Speichern? (src/dialogs.rs)": [
+        (None, "Close _without Saving"), (None, "_Cancel"), (None, "_Save"),
+    ],
+    "Dialog Gehe zu Zeile (src/dialogs.rs)": [
+        (None, "_Line:"), (None, "_Cancel"), (None, "_Go"),
+    ],
+    "Menüleiste (src/editor.rs)": [
+        (None, "_File"), (None, "_Edit"), (None, "_View"), (None, "_Search"),
+        (None, "_Documents"), (None, "_Help"),
+    ],
+    "Menü Datei": [
+        (None, "_New"), (None, "_Open…"), (None, "_Save"), (None, "Save _As…"),
+        ("File menu", "_Close"), (None, "_Quit"),
+    ],
+    "Menü Bearbeiten": [
+        (None, "_Undo"), (None, "_Redo"), (None, "Cu_t"), (None, "_Copy"), (None, "_Paste"),
+        (None, "_Delete"), (None, "Select _All"),
+    ],
+    "Menü Ansicht": [
+        (None, "_Line Numbers"), (None, "_Text Wrapping"), (None, "_Statusbar"),
+    ],
+    "Menü Suchen": [
+        (None, "_Find…"), (None, "Find Ne_xt"), (None, "Find Pre_vious"), (None, "_Replace…"),
+        (None, "Go to _Line…"),
+    ],
+    "Menü Dokumente": [
+        (None, "_Save All"), (None, "_Previous Document"), (None, "_Next Document"),
+    ],
+}
+
+
+def mnemonic_key(s):
+    """Taste hinter dem ersten einzelnen „_“ (klein), sonst None."""
+    m = re.search(r"(?<!_)_([^_\s])", s)
+    return m.group(1).casefold() if m else None
+
+
+def mnemonic_clashes(known, catalogs, groups=None):
+    """Doppelte Zugriffstasten je Gruppe.
+
+    known: Menge der (msgctxt, msgid) der Vorlage; catalogs: Sprache ->
+    {(msgctxt, msgid): msgstr}, die Quellsprache als msgid selbst. Liefert
+    Fehlermeldungen (leer = keine Doppelung).
+    """
+    fehler = []
+    for name, keys in (MNEMONIC_GROUPS if groups is None else groups).items():
+        for k in keys:
+            if k not in known:
+                fehler.append(f"Zugriffstasten {name}: unbekannte msgid {k[1]!r}"
+                              + (f" (Kontext {k[0]!r})" if k[0] else ""))
+        for lang, cat in catalogs.items():
+            seen = {}
+            for k in keys:
+                text = cat.get(k)
+                key = mnemonic_key(text) if text else None
+                if key is None:
+                    continue
+                seen.setdefault(key, []).append(text)
+            for key, texts in sorted(seen.items()):
+                if len(texts) > 1:
+                    fehler.append(f"{lang}: Zugriffstaste {key.upper()} doppelt in {name}: "
+                                  + ", ".join(repr(t) for t in texts))
+    return fehler
+
+
 def cmd_pruefen(root):
     fehler = []
     path = os.path.join(root, "po", DOMAIN + ".pot")
@@ -496,9 +578,12 @@ def cmd_pruefen(root):
     if sorted(map(key, pot), key=str) != sorted(map(key, fresh), key=str):
         fehler.append("po/%s.pot ist nicht aktuell (werkzeug/i18n.py pot)" % DOMAIN)
     want = {(e["ctxt"], e["id"]) for e in fresh}
+    catalogs = {"msgid": {k: k[1] for k in want}}
     for lang in linguas(root):
         _, entries = read_po(os.path.join(root, "po", lang + ".po"))
         have = {(e["ctxt"], e["id"]): e for e in entries}
+        catalogs[lang] = {k: e["str"] for k, e in have.items()
+                          if e.get("plural") is None and translated(e)}
         for k in sorted(want - set(have), key=str):
             fehler.append(f"{lang}: fehlt: {k[1]!r}")
         for k, e in have.items():
@@ -520,6 +605,7 @@ def cmd_pruefen(root):
                     fehler.append(f"{lang}: Zugriffstaste (_) fehlt oder doppelt: {e['id']!r} -> {s!r}")
                 if e["id"].endswith("\n") != s.endswith("\n"):
                     fehler.append(f"{lang}: Zeilenende abweichend: {e['id']!r}")
+    fehler += mnemonic_clashes(want, catalogs)
     import tempfile
     for src in sources(root)[1]:
         dst = src[: -len(".in")]

@@ -1,16 +1,23 @@
 /* Querencia Editor – klassische Optik (Ambiance-Farbwerte wie Panel und
-   Querencia Files; keine Bilder oder Theme-Dateien übernommen). */
+   Querencia Files; keine Bilder oder Theme-Dateien übernommen).
+
+   Hell und dunkel (0.2.3): Menüleiste und Menüs zeichnet das Thema
+   Querencia-Klassisch selbst (hell dieselben Werte, die früher hier fest
+   standen). Reiterleiste und Statusleiste weichen vom Thema ab und nehmen
+   dessen benannte Farben (@theme_bg_color #f2f1f0, @theme_base_color
+   #ffffff, @theme_fg_color #3c3c3c, @borders #c7c2be); die dunkle Fassung
+   des Themas setzt sie um. Anders als ein Block mit @media
+   (prefers-color-scheme: dark) wirkt das ohne Bindung des eigenen
+   CssProviders an gtk-interface-color-scheme und bleibt unter einem Thema
+   ohne dunkle Fassung hell. */
 
 window.qe-window menubar {
-  background-color: #f2f1f0;
-  border-bottom: 1px solid #c7c2be;
   padding: 1px 2px;
 }
 
 window.qe-window menubar > item {
   padding: 3px 8px;
   border-radius: 0;
-  color: #3c3c3c;
 }
 
 window.qe-window menubar > item:hover,
@@ -22,8 +29,6 @@ window.qe-window menubar > item:selected {
 window.qe-window popover.menu contents {
   border-radius: 0;
   padding: 2px 0;
-  background-color: #f5f4f2;
-  border: 1px solid #c7c2be;
 }
 
 window.qe-window popover.menu modelbutton {
@@ -38,8 +43,8 @@ window.qe-window popover.menu modelbutton:selected {
 }
 
 window.qe-window notebook > header {
-  background-color: #f2f1f0;
-  border-bottom: 1px solid #c7c2be;
+  background-color: @theme_bg_color;
+  border-bottom: 1px solid @borders;
 }
 
 window.qe-window notebook > header tab {
@@ -48,7 +53,7 @@ window.qe-window notebook > header tab {
 }
 
 window.qe-window notebook > header tab:checked {
-  background-color: #ffffff;
+  background-color: @theme_base_color;
   box-shadow: inset 0 -2px #f07746;
 }
 
@@ -59,14 +64,15 @@ button.qe-tab-close {
 }
 
 box.qe-statusbar {
-  background-color: #f2f1f0;
-  border-top: 1px solid #c7c2be;
+  background-color: @theme_bg_color;
+  border-top: 1px solid @borders;
   padding: 2px 8px;
   font-size: 0.9em;
-  color: #3c3c3c;
+  color: @theme_fg_color;
 }
 
 window.qe-dialog button {
   border-radius: 2px;
   min-width: 80px;
 }
+

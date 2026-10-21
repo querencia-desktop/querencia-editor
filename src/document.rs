@@ -32,14 +32,45 @@ pub struct Document {
     title_listeners: RefCell<Vec<Box<dyn Fn()>>>,
 }
 
+/// Farbschema der Textfläche passend zur Ansicht des Themas (0.2.3): hell
+/// „classic“ wie bisher, dunkel dessen eingebaute dunkle Fassung
+/// „classic-dark“.
+pub fn style_scheme_id(dark: bool) -> &'static str {
+    if dark { "classic-dark" } else { "classic" }
+}
+
+/// Die Ansicht des Themas ist dunkel: `@theme_base_color` (Grund von
+/// Listen und Textfeldern) hat eine geringe Leuchtdichte. Gefragt wird das
+/// Thema, nicht die Einstellung `gtk-interface-color-scheme`: ein Thema ohne
+/// dunkle Fassung (Querencia-Klassisch 0.1) bleibt bei „dunkel“ hell, und
+/// die Textfläche mit ihm.
+#[allow(deprecated)] // StyleContext::lookup_color: in GTK 4 der Weg zu benannten Farben
+fn theme_view_is_dark() -> bool {
+    gtk::Label::new(None)
+        .style_context()
+        .lookup_color("theme_base_color")
+        .map(|c| 0.2126 * c.red() + 0.7152 * c.green() + 0.0722 * c.blue() < 0.5)
+        .unwrap_or(false)
+}
+
+fn apply_style_scheme(buffer: &sourceview5::Buffer) {
+    let id = style_scheme_id(theme_view_is_dark());
+    if let Some(scheme) = sourceview5::StyleSchemeManager::default().scheme(id) {
+        buffer.set_style_scheme(Some(&scheme));
+    }
+}
+
 impl Document {
+    /// Farbschema der Textfläche neu wählen (beim Wechsel im Lauf).
+    pub fn follow_color_scheme(&self) {
+        apply_style_scheme(&self.buffer);
+    }
+
     pub fn new(untitled: u32, settings: &sourceview5::SearchSettings) -> Rc<Self> {
         let buffer = sourceview5::Buffer::new(None::<&gtk::TextTagTable>);
         buffer.set_highlight_syntax(true);
         buffer.set_highlight_matching_brackets(true);
-        if let Some(scheme) = sourceview5::StyleSchemeManager::default().scheme("classic") {
-            buffer.set_style_scheme(Some(&scheme));
-        }
+        apply_style_scheme(&buffer);
         let view = sourceview5::View::with_buffer(&buffer);
         // Voreinstellungen wie gedit 2.30: Zeilennummern, automatische
         // Einrückung, Tabulatorbreite 8, Tabulatoren statt Leerzeichen.
@@ -226,5 +257,16 @@ impl Document {
         self.view
             .scroll_to_mark(&self.buffer.get_insert(), 0.0, true, 0.0, 0.3);
         true
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::style_scheme_id;
+
+    #[test]
+    fn text_area_follows_the_interface_color_scheme() {
+        assert_eq!(style_scheme_id(false), "classic");
+        assert_eq!(style_scheme_id(true), "classic-dark");
     }
 }

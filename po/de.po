@@ -286,7 +286,7 @@ msgstr "Suchen"
 
 #: src/search.rs:161
 msgid "_Search for:"
-msgstr "_Suchen nach:"
+msgstr "Su_chen nach:"
 
 #: src/search.rs:178
 msgid "Replace _with:"
@@ -306,13 +306,13 @@ msgstr "_Rückwärts suchen"
 
 #: src/search.rs:187
 msgid "Wra_p around"
-msgstr "Am _Ende neu beginnen"
+msgstr "Am Ende _neu beginnen"
 
 #. TRANSLATORS: Knöpfe im Such-/Ersetzen-Dialog; die Zugriffstasten dürfen sich nicht mit den Feldern darüber überschneiden.
 #: src/search.rs:200
 msgctxt "Search dialog"
 msgid "_Close"
-msgstr "S_chließen"
+msgstr "Schl_ießen"
 
 #: src/search.rs:201
 msgid "Replace _All"
@@ -324,7 +324,7 @@ msgstr "_Ersetzen"
 
 #: src/search.rs:203
 msgid "_Find"
-msgstr "Su_chen"
+msgstr "_Suchen"
 
 #: src/search.rs:289
 msgid "Nothing found – nothing replaced."

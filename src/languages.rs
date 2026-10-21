@@ -105,11 +105,13 @@ mod gui_tests {
             let got = language_for(name, None).map(|l| l.id().to_string());
             assert_eq!(got.as_deref(), id, "{name}");
         }
-        assert!(
-            sourceview5::StyleSchemeManager::default()
-                .scheme("classic")
-                .is_some(),
-            "Farbschema classic"
-        );
+        for id in ["classic", "classic-dark"] {
+            assert!(
+                sourceview5::StyleSchemeManager::default()
+                    .scheme(id)
+                    .is_some(),
+                "Farbschema {id}"
+            );
+        }
     }
 }
