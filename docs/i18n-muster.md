@@ -1,12 +1,12 @@
 # Mehrsprachigkeit mit gettext – Muster für Querencia-Programme
 
-Vorbild ist der Querencia Editor 0.2.0 (G2-AC, 19.10.2026). Dieses Dokument
+Vorbild ist der Querencia Editor 0.2.0 (19.10.2026). Dieses Dokument
 beschreibt Schritt für Schritt, wie ein weiteres Querencia-Programm (Rust,
 GTK 4 über gtk-rs 0.11, ohne libadwaita) übersetzbar wird. Je Programm
 reicht danach ein kleiner Auftrag: „i18n nach `docs/i18n-muster.md` des
 Editors, Zielsprachen de (+ en als msgid)“.
 
-Entscheidungen (pottrauschen, 19.10.2026; Status-Session):
+Entscheidungen (19.10.2026):
 
 - **GNU gettext** mit `.po`/`.mo` wie GNOME 2 und Debian. Ausnahme: Files
   (Strata-Fork) bleibt bei `rust-i18n`.
@@ -24,7 +24,7 @@ Entscheidungen (pottrauschen, 19.10.2026; Status-Session):
   `LC_MESSAGES`, `LANG`. Die Querencia-Sitzung läuft heute mit
   `LANG=en_US.UTF-8` und `LANGUAGE=de` (labwc `environment`). Deutsch wird
   also über `LANGUAGE` gewählt. Ein Einstellungsbereich „Sprache“ folgt
-  später (QD-046-Reihe).
+  später.
 
 ## 1. Crate
 
@@ -136,7 +136,7 @@ Das Repo bringt `werkzeug/i18n.py` mit: reines Python, keine
 Abhängigkeiten. Es entstand, als GNU gettext auf der VM noch fehlte. Seit
 20.10. ist gettext 0.23.2 installiert; dessen `xgettext` kann aber erst ab
 0.24 Rust lesen. Deshalb bleibt `i18n.py pot` der Weg zur `.pot`. Abgleich
-mit gettext 0.23.2 (G2-AC):
+mit gettext 0.23.2:
 
 - `msgfmt -c po/de.po` ist fehlerfrei.
 - Die `.mo` aus `i18n.py` und aus `msgfmt` sind inhaltsgleich (`msgunfmt`).
@@ -232,8 +232,8 @@ Oberflächen entstehen im Code. Falls doch welche dazukommen:
   ```
   Die Binary findet die Kataloge über ihren eigenen Pfad (siehe §2). Der
   Link in `~/opt/querencia/bin/` bleibt wie bisher.
-- **Integrationsskript** nach `editor-i18n-integrieren.sh` (G2-AC, Muster
-  G2-V `programm-integrieren.sh`):
+- **Integrationsskript** nach `editor-i18n-integrieren.sh` (Muster
+  `programm-integrieren.sh`):
   - Die Ablage entsteht vollständig unter einem Hilfsnamen, wird geprüft
     (genau drei Dateien, Prüfsummen, schreibgeschützt) und erst dann in
     einem Schritt umbenannt. Es gibt also nie eine Binary ohne Katalog.
@@ -259,7 +259,7 @@ Oberflächen entstehen im Code. Falls doch welche dazukommen:
    alten Commit müssen in `po/de.po` stehen. Abweichungen sind nur
    umbenannte Platzhalter. Der Editor hat das mit einem Einzeiler über
    `git show <alt>:src/*.rs` geprüft.
-4. GUI isoliert (headless labwc, Muster `~/projects/querencia-editor-i18n/werkzeug/`):
+4. GUI isoliert (headless labwc, Muster: Prüfgerüst `werkzeug/` des i18n-Arbeitsordners, nicht im Repo):
    je `LANGUAGE=de` und `LANGUAGE=en`, 1024×768 und 1920×1080. Belegbilder
    von Menüs, einem Dialog und der Statusleiste. In der de-Sitzung
    `/proc/<pid>/maps` auf `…/share/locale/de/LC_MESSAGES/<domäne>.mo`

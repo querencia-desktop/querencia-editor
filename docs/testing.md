@@ -9,12 +9,12 @@ python3 werkzeug/i18n.py pruefen          # .pot aktuell, de.po vollständig, Pl
 python3 -I -B werkzeug/test_i18n.py       # Tests der Prüfung (Doppelungen, unbekannte msgid)
 ```
 
-Mehrsprachige GUI-Prüfung (G2-AC, je `LANGUAGE=de` mit `LANG=en_US.UTF-8`
+Mehrsprachige GUI-Prüfung (je `LANGUAGE=de` mit `LANG=en_US.UTF-8`
 wie in der Sitzung und `LANGUAGE=en`, 1024×768 und 1920×1080; Binary und
 Katalog aus der Integrationsvorlage, Ablage-Aufbau wie live):
 
 ```bash
-bash ~/projects/querencia-editor-i18n/werkzeug/lauf.sh de 1024x768   # Bilder und ergebnis.txt nach …/nachweis/gui/de-1024x768/
+bash <arbeitsordner-i18n>/werkzeug/lauf.sh de 1024x768   # Bilder und ergebnis.txt nach …/nachweis/gui/de-1024x768/
 ```
 
 GUI nur isoliert (eigener headless labwc 0.9.8, eigener D-Bus, eigenes

@@ -30,11 +30,11 @@
   Variante B). Maßgeblich ist das Thema, nicht die Einstellung: unter einem
   Thema ohne dunkle Fassung bleibt auch die Textfläche hell. Ein eigenes
   Schema passend zum Thema ist Folgepunkt für Alpha 2.
-- Startfehler GTK 4.22 (QD-081): Nach dem Start meldet der Editor einmal
+- Startfehler GTK 4.22: Nach dem Start meldet der Editor einmal
   `gtk-interface-color-scheme`; sonst bliebe ein unter „dunkel“ gestarteter
   Editor hell.
 - Deutsche Zugriffstasten im Such- und Ersetzen-Dialog eindeutig
-  (Entscheidung 20.10., QD-076-Nebenbefund): „Schl_ießen“, „_Suchen“,
+  (Entscheidung 20.10.): „Schl_ießen“, „_Suchen“,
   „Am Ende _neu beginnen“, dazu „Su_chen nach:“ (sonst S doppelt); „_Ersetzen“
   bleibt. Vorher teilten „S_chließen“/„Su_chen“ das C und „Am _Ende neu
   beginnen“/„_Ersetzen“ das E – Alt+C schloss den Dialog nicht.
@@ -43,7 +43,7 @@
   `werkzeug/test_i18n.py` (mit dem Stand 0.2.2 und „Feld gegen Knopf“ als
   Negativfällen).
 
-## [0.2.2] – QD-076 (2026-10-20)
+## [0.2.2] – 2026-10-20
 
 - Das Fenster „Suchen“ bzw. „Ersetzen“ (Strg+F, Strg+H) wird bei jedem
   Öffnen neu gebaut und beim Schließen zerstört, statt verborgen und wieder
@@ -65,7 +65,7 @@
   2,8:1 bzw. 2,0:1.
   Verlauf und alles Übrige unverändert; Texte und Katalog unverändert.
 
-## [0.2.0] – G2-AC (2026-10-19)
+## [0.2.0] – 2026-10-19
 
 - Mehrsprachigkeit über GNU gettext (`gettext-rs` 0.8 mit dem gettext der
   glibc): alle 75 sichtbaren Texte (Menüs, Dialoge, Statusleiste, Tooltip,
@@ -76,19 +76,19 @@
 - Kataloge neben der Binary (`share/locale/<lang>/LC_MESSAGES/`), sonst im
   Präfix bzw. `/usr/share/locale`.
 - Desktop-Datei aus `data/org.querencia.Editor.desktop.in` mit `[de]`-Zeilen;
-  Menüname „Text Editor“/„Texteditor“ und MimeType wie live seit G2-E.
+  Menüname „Text Editor“/„Texteditor“ und MimeType wie bisher.
 - `werkzeug/i18n.py` (pot, update, mo, desktop, pruefen) ohne Abhängigkeiten;
   mit GNU gettext 0.23.2 abgeglichen (.mo inhaltsgleich, Desktop-Datei
   byte-gleich zu `msgfmt --desktop`; xgettext liest Rust erst ab 0.24); Katalogtest in
   `cargo test`. Muster für die übrigen Programme: `docs/i18n-muster.md`.
 
-## [unveröffentlicht] – G2-V (2026-10-19)
+## [unveröffentlicht] – 2026-10-19
 
-- Eigenes Programmsymbol statt Logo-Platzhalter (QD-034): Notizblock mit
+- Eigenes Programmsymbol statt Logo-Platzhalter: Notizblock mit
   Ringbindung und Stift in Querencia-Orange; PNG 16–256 und SVG ohne 48x48,
   Fenstersymbol (`org.querencia.Editor-fenster`, GResource) dasselbe SVG.
 
 ## [0.1.0] – Prototyp (unveröffentlicht)
 
-- Erster isolierter Prototyp (QE-01): Menüleiste, Reiter, Hervorhebung,
+- Erster isolierter Prototyp: Menüleiste, Reiter, Hervorhebung,
   Suchen/Ersetzen, Zeilennummern, Einrückung, Schutz vor Datenverlust.
