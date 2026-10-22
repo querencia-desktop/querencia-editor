@@ -54,7 +54,7 @@ msgstr ""
 msgid "If you don’t save, your changes will be lost."
 msgstr ""
 
-#: src/dialogs.rs:220 src/dialogs.rs:316
+#: src/dialogs.rs:220 src/dialogs.rs:362
 msgid "_Close"
 msgstr ""
 
@@ -71,28 +71,41 @@ msgstr ""
 msgid "_Go"
 msgstr ""
 
-#: src/dialogs.rs:284
-#, no-c-format
-msgid "About {name}"
+#. TRANSLATORS: Adresse der Online-Hilfe; nur das Sprachkürzel anpassen (deutsch …/de/docs/).
+#: src/dialogs.rs:293
+msgid "https://querencialinux.org/en/docs/"
 msgstr ""
 
-#: src/dialogs.rs:297
+#. TRANSLATORS: Fenstertitel des Info-Dialogs; deutsch mit dem Eigennamen „Querencia Editor“, englisch mit dem Namen aus dem Anwendungsmenü.
+#: src/dialogs.rs:309
+msgid "About Text Editor"
+msgstr ""
+
+#. TRANSLATORS: Programmname und Version im Info-Dialog; deutsch „Querencia Editor {version}“.
+#: src/dialogs.rs:320
+#, no-c-format
+msgid "Text Editor {version}"
+msgstr ""
+
+#: src/dialogs.rs:328
 msgid ""
 "A classic text editor for Querencia Desktop,\n"
-"modelled on gedit 2.30.\n"
-"\n"
-"Prototype – not yet released for everyday use."
+"modelled on gedit 2.30."
 msgstr ""
 
-#: src/dialogs.rs:310
-msgid "License: GNU GPL, version 3 or later"
+#: src/dialogs.rs:333
+msgid "Alpha – not released for everyday use."
 msgstr ""
 
-#: src/document.rs:66
+#: src/dialogs.rs:353
+msgid "License: GPL-3.0-or-later"
+msgstr ""
+
+#: src/document.rs:97
 msgid "Close document"
 msgstr ""
 
-#: src/document.rs:106
+#: src/document.rs:137
 #, no-c-format
 msgid "Unsaved Document {n}"
 msgstr ""
@@ -214,46 +227,55 @@ msgstr ""
 msgid "_Help"
 msgstr ""
 
-#: src/editor.rs:148
+#. TRANSLATORS: Hilfe-Menü; Online-Hilfe und Fehlermeldung öffnen den Browser. Zugriffstasten im Menü verschieden halten.
+#: src/editor.rs:152
+msgid "Online _Help"
+msgstr ""
+
+#: src/editor.rs:153
+msgid "_Report a Bug"
+msgstr ""
+
+#: src/editor.rs:155
 msgid "_About"
 msgstr ""
 
 #. TRANSLATORS: Statusleiste, Einfügemodus (kurz, höchstens 5 Zeichen).
-#: src/editor.rs:156
+#: src/editor.rs:164
 msgid "INS"
 msgstr ""
 
 #. TRANSLATORS: Statusleiste, Position der Einfügemarke (wie gedit „Ln 12, Col 5“).
-#: src/editor.rs:313
+#: src/editor.rs:335
 #, no-c-format
 msgid "Ln {line}, Col {col}"
 msgstr ""
 
 #. TRANSLATORS: Statusleiste, Überschreibmodus (kurz, höchstens 5 Zeichen).
-#: src/editor.rs:320
+#: src/editor.rs:342
 msgid "OVR"
 msgstr ""
 
-#: src/editor.rs:431
+#: src/editor.rs:453
 #, no-c-format
 msgid "Could not open “{name}”."
 msgstr ""
 
-#: src/editor.rs:470
+#: src/editor.rs:492
 #, no-c-format
 msgid "Saved “{name}”."
 msgstr ""
 
-#: src/editor.rs:476
+#: src/editor.rs:498
 #, no-c-format
 msgid "Could not save “{name}”."
 msgstr ""
 
-#: src/editor.rs:487
+#: src/editor.rs:509
 msgid "Save As…"
 msgstr ""
 
-#: src/editor.rs:676
+#: src/editor.rs:698
 msgid "Open File"
 msgstr ""
 
