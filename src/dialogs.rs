@@ -370,4 +370,6 @@ pub fn about(parent: &impl IsA<gtk::Window>) {
         }
     });
     window.present();
+    // Fokus auf „Schließen“, nicht auf den Link (Eingabetaste schließt).
+    close.grab_focus();
 }
