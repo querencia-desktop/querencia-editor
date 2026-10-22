@@ -40,7 +40,7 @@ noch keins in diesem Repo (Paketierung im Packaging-Repo).
 |---|---|
 | Version | 0.2.4 (Tag `editor/0.2.4`; Info-Dialog mit Alpha-Hinweis, Website, Copyright und Lizenz, Hilfe-Menü mit Online-Hilfe und Fehler melden) |
 | Auf der Entwicklungs-VM | live ist 0.2.3 (seit 21.10.2026); 0.2.4 wartet auf Freigabe |
-| Letzte Prüfung | 21.10.2026: 7 Unit-Tests (1 GUI-Test `#[ignore]`), `i18n.py pruefen` (75 Texte, Zugriffstasten je Dialog), 10 Tests `werkzeug/test_i18n.py`; isoliert 19 Läufe hell/dunkel Deutsch und Englisch bei 1024×768 und 1920×1080, hell pixelgleich zu 0.2.2 |
+| Letzte Prüfung | 22.10.2026 (0.2.4): fmt und Clippy sauber, 8 Unit-Tests (1 GUI-Test `#[ignore]`), `i18n.py pruefen` (80 Texte, Zugriffstasten je Menü), 10 Tests `werkzeug/test_i18n.py`; isoliert Deutsch und Englisch bei 1024×768 mit Browser-Attrappe: Online-Hilfe öffnet /de/docs/ bzw. /en/docs/, Fehler melden die GitHub-Seite (je über die Zugriffstaste), Info-Dialog mit Alpha-Hinweis, Website, Copyright und Lizenz |
 | Bekannte Lücken | isolierte GUI-Prüfung liegt noch nicht in diesem Repo ([docs/testing.md](docs/testing.md)); MetaInfo ohne Übersetzung |
 | Getestet auf | Ubuntu 26.04, labwc 0.9.8, GTK 4.22, Rust 1.93.1 |
 
