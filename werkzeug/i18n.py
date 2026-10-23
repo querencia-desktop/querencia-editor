@@ -532,6 +532,9 @@ MNEMONIC_GROUPS = {
     "Menü Dokumente": [
         (None, "_Save All"), (None, "_Previous Document"), (None, "_Next Document"),
     ],
+    "Menü Hilfe": [
+        (None, "Online _Help"), (None, "_Report a Bug"), (None, "_About"),
+    ],
 }
 
 

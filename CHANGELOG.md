@@ -1,5 +1,17 @@
 # Änderungen – Querencia Editor
 
+## [0.2.4] – Info-Dialog und Hilfe-Menü (2026-10-22)
+
+- Info-Dialog wie in den übrigen Querencia-Programmen: Hinweis „Alpha –
+  nicht für den Alltag freigegeben“ (statt „Prototyp“), Website
+  querencialinux.org, „© 2026 Querencia Desktop contributors“, Lizenz
+  GPL-3.0-or-later. Englisch heißt er „About Text Editor“ (wie im
+  Anwendungsmenü), deutsch weiter „Info zu Querencia Editor“.
+- Hilfe-Menü mit „Online-Hilfe“ (querencialinux.org/de/docs/, englische
+  Oberfläche /en/docs/) und „Fehler melden“ (neue Fehlermeldung auf GitHub);
+  beides öffnet der Standardbrowser der Sitzung.
+- Katalog ohne interne Kennungen.
+
 ## [0.2.3] – CSS-Welle dunkel, Zugriffstasten (2026-10-21)
 
 - Dunkle Darstellung: Menüleiste und Menüs nehmen ihre Farben ganz aus dem
@@ -78,5 +90,5 @@
 
 ## [0.1.0] – Prototyp (unveröffentlicht)
 
-- Erster isolierter Prototyp (QE-01): Menüleiste, Reiter, Hervorhebung,
+- Erster isolierter Prototyp: Menüleiste, Reiter, Hervorhebung,
   Suchen/Ersetzen, Zeilennummern, Einrückung, Schutz vor Datenverlust.

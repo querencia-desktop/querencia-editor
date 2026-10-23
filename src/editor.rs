@@ -145,7 +145,15 @@ fn menu_model() -> gio::Menu {
     );
     bar.append_submenu(
         Some(&gettext("_Help")),
-        &submenu(&[section(&[(gettext("_About"), "win.about")])]),
+        &submenu(&[
+            section(&[
+                // TRANSLATORS: Hilfe-Menü; Online-Hilfe und Fehlermeldung öffnen
+                // den Browser. Zugriffstasten im Menü verschieden halten.
+                (gettext("Online _Help"), "win.online-help"),
+                (gettext("_Report a Bug"), "win.report-bug"),
+            ]),
+            section(&[(gettext("_About"), "win.about")]),
+        ]),
     );
     bar
 }
@@ -874,6 +882,24 @@ impl Editor {
                 }),
             );
         }
+        let weak = Rc::downgrade(self);
+        add(
+            "online-help",
+            Box::new(move |_, _| {
+                if let Some(e) = weak.upgrade() {
+                    dialogs::open_uri(&e.window, &dialogs::online_help());
+                }
+            }),
+        );
+        let weak = Rc::downgrade(self);
+        add(
+            "report-bug",
+            Box::new(move |_, _| {
+                if let Some(e) = weak.upgrade() {
+                    dialogs::open_uri(&e.window, dialogs::REPORT_BUG);
+                }
+            }),
+        );
         let weak = Rc::downgrade(self);
         add(
             "about",
