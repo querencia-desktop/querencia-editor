@@ -1,5 +1,15 @@
 # Änderungen – Querencia Editor
 
+## [0.2.5] – Italienisch, Spanisch, Französisch (2026-10-26)
+
+- Neue Kataloge `po/it.po`, `po/es.po`, `po/fr.po` (je 80 Texte, vollständig);
+  Wortwahl nach GNOME/gedit der jeweiligen Sprache und der gemeinsamen
+  Querencia-Begriffstabelle, Zugriffstasten je Menü und Dialog eindeutig,
+  Online-Hilfe auf querencialinux.org/it|es|fr/docs/.
+- Desktop-Datei mit `Name`, `GenericName`, `Comment` und `Keywords` für it,
+  es, fr.
+- `werkzeug/i18n.py`: Plural-Forms für it und es.
+
 ## [0.2.4] – Info-Dialog und Hilfe-Menü (2026-10-22)
 
 - Info-Dialog wie in den übrigen Querencia-Programmen: Hinweis „Alpha –

@@ -1,0 +1,369 @@
+# Querencia Editor: spanische Übersetzung.
+# Copyright (C) 2026 Querencia Desktop contributors
+# Diese Datei steht unter derselben Lizenz wie Querencia Editor (GPL-3.0-or-later).
+# Begriffe nach der gemeinsamen Querencia-Begriffstabelle (GNOME-Wortwahl).
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: querencia-editor\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2026-10-26 22:25+0100\n"
+"Last-Translator: Querencia Desktop contributors\n"
+"Language-Team: Español (Querencia)\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. TRANSLATORS: Desktop-Datei, Schlüssel Name
+#. TRANSLATORS: Desktop-Datei, Schlüssel GenericName
+#: data/org.querencia.Editor.desktop.in:12 data/org.querencia.Editor.desktop.in:13
+msgid "Text Editor"
+msgstr "Editor de textos"
+
+#. TRANSLATORS: Desktop-Datei, Schlüssel Comment
+#: data/org.querencia.Editor.desktop.in:14
+msgid "Edit text files"
+msgstr "Editar archivos de texto"
+
+#. TRANSLATORS: Desktop-Datei, Schlüssel Keywords (Liste, Einträge mit ; trennen und abschließen)
+#: data/org.querencia.Editor.desktop.in:21
+msgid "Text;Editor;Notepad;Notes;"
+msgstr "Texto;Editor;Bloc de notas;Notas;"
+
+#: src/dialogs.rs:166
+msgid "Close _without Saving"
+msgstr "Cerrar _sin guardar"
+
+#: src/dialogs.rs:167 src/dialogs.rs:243
+msgid "_Cancel"
+msgstr "_Cancelar"
+
+#: src/dialogs.rs:168 src/editor.rs:91
+msgid "_Save"
+msgstr "_Guardar"
+
+#: src/dialogs.rs:172
+#, no-c-format
+msgid "Save changes to document “{name}” before closing?"
+msgstr "¿Guardar los cambios del documento «{name}» antes de cerrar?"
+
+#: src/dialogs.rs:176
+msgid "If you don’t save, your changes will be lost."
+msgstr "Si no guarda, perderá los cambios."
+
+#: src/dialogs.rs:220 src/dialogs.rs:362
+msgid "_Close"
+msgstr "_Cerrar"
+
+#: src/dialogs.rs:236
+msgid "Go to Line"
+msgstr "Ir a la línea"
+
+#: src/dialogs.rs:237
+msgid "_Line:"
+msgstr "_Línea:"
+
+#. TRANSLATORS: Knopf im Dialog „Go to Line“.
+#: src/dialogs.rs:245
+msgid "_Go"
+msgstr "_Ir"
+
+#. TRANSLATORS: Adresse der Online-Hilfe; nur das Sprachkürzel anpassen (deutsch …/de/docs/).
+#: src/dialogs.rs:293
+msgid "https://querencialinux.org/en/docs/"
+msgstr "https://querencialinux.org/es/docs/"
+
+#. TRANSLATORS: Fenstertitel des Info-Dialogs; deutsch mit dem Eigennamen „Querencia Editor“, englisch mit dem Namen aus dem Anwendungsmenü.
+#: src/dialogs.rs:309
+msgid "About Text Editor"
+msgstr "Acerca de Querencia Editor"
+
+#. TRANSLATORS: Programmname und Version im Info-Dialog; deutsch „Querencia Editor {version}“.
+#: src/dialogs.rs:320
+#, no-c-format
+msgid "Text Editor {version}"
+msgstr "Querencia Editor {version}"
+
+#: src/dialogs.rs:328
+msgid ""
+"A classic text editor for Querencia Desktop,\n"
+"modelled on gedit 2.30."
+msgstr ""
+"Un editor de textos clásico para Querencia Desktop,\n"
+"inspirado en gedit 2.30."
+
+#: src/dialogs.rs:333
+msgid "Alpha – not released for everyday use."
+msgstr "Alfa: no apto todavía para el uso diario."
+
+#: src/dialogs.rs:353
+msgid "License: GPL-3.0-or-later"
+msgstr "Licencia: GPL-3.0-or-later"
+
+#: src/document.rs:97
+msgid "Close document"
+msgstr "Cerrar documento"
+
+#: src/document.rs:137
+#, no-c-format
+msgid "Unsaved Document {n}"
+msgstr "Documento sin guardar {n}"
+
+#: src/editor.rs:84
+msgid "_File"
+msgstr "_Archivo"
+
+#: src/editor.rs:87
+msgid "_New"
+msgstr "_Nuevo"
+
+#: src/editor.rs:88
+msgid "_Open…"
+msgstr "_Abrir…"
+
+#: src/editor.rs:92
+msgid "Save _As…"
+msgstr "Guardar c_omo…"
+
+#: src/editor.rs:95
+msgctxt "File menu"
+msgid "_Close"
+msgstr "_Cerrar"
+
+#: src/editor.rs:96
+msgid "_Quit"
+msgstr "_Salir"
+
+#: src/editor.rs:101
+msgid "_Edit"
+msgstr "_Editar"
+
+#: src/editor.rs:104
+msgid "_Undo"
+msgstr "_Deshacer"
+
+#: src/editor.rs:105
+msgid "_Redo"
+msgstr "_Rehacer"
+
+#: src/editor.rs:108
+msgid "Cu_t"
+msgstr "Cor_tar"
+
+#: src/editor.rs:109
+msgid "_Copy"
+msgstr "_Copiar"
+
+#: src/editor.rs:110
+msgid "_Paste"
+msgstr "_Pegar"
+
+#: src/editor.rs:111
+msgid "_Delete"
+msgstr "_Eliminar"
+
+#: src/editor.rs:113
+msgid "Select _All"
+msgstr "_Seleccionar todo"
+
+#: src/editor.rs:117
+msgid "_View"
+msgstr "_Ver"
+
+#: src/editor.rs:119
+msgid "_Line Numbers"
+msgstr "_Números de línea"
+
+#: src/editor.rs:120
+msgid "_Text Wrapping"
+msgstr "_Ajuste de línea"
+
+#: src/editor.rs:121
+msgid "_Statusbar"
+msgstr "Barra de _estado"
+
+#: src/editor.rs:125
+msgid "_Search"
+msgstr "_Buscar"
+
+#: src/editor.rs:128
+msgid "_Find…"
+msgstr "_Buscar…"
+
+#: src/editor.rs:129
+msgid "Find Ne_xt"
+msgstr "Buscar _siguiente"
+
+#: src/editor.rs:130
+msgid "Find Pre_vious"
+msgstr "Buscar _anterior"
+
+#: src/editor.rs:132
+msgid "_Replace…"
+msgstr "_Reemplazar…"
+
+#: src/editor.rs:133
+msgid "Go to _Line…"
+msgstr "Ir a la _línea…"
+
+#: src/editor.rs:137
+msgid "_Documents"
+msgstr "_Documentos"
+
+#: src/editor.rs:139
+msgid "_Save All"
+msgstr "_Guardar todos"
+
+#: src/editor.rs:141
+msgid "_Previous Document"
+msgstr "Documento _anterior"
+
+#: src/editor.rs:142
+msgid "_Next Document"
+msgstr "Documento _siguiente"
+
+#: src/editor.rs:147
+msgid "_Help"
+msgstr "Ay_uda"
+
+#. TRANSLATORS: Hilfe-Menü; Online-Hilfe und Fehlermeldung öffnen den Browser. Zugriffstasten im Menü verschieden halten.
+#: src/editor.rs:152
+msgid "Online _Help"
+msgstr "Ayuda en _línea"
+
+#: src/editor.rs:153
+msgid "_Report a Bug"
+msgstr "_Informar de un error"
+
+#: src/editor.rs:155
+msgid "_About"
+msgstr "Acerca _de"
+
+#. TRANSLATORS: Statusleiste, Einfügemodus (kurz, höchstens 5 Zeichen).
+#: src/editor.rs:164
+msgid "INS"
+msgstr "INS"
+
+#. TRANSLATORS: Statusleiste, Position der Einfügemarke (wie gedit „Ln 12, Col 5“).
+#: src/editor.rs:335
+#, no-c-format
+msgid "Ln {line}, Col {col}"
+msgstr "Lín {line}, Col {col}"
+
+#. TRANSLATORS: Statusleiste, Überschreibmodus (kurz, höchstens 5 Zeichen).
+#: src/editor.rs:342
+msgid "OVR"
+msgstr "SOB"
+
+#: src/editor.rs:453
+#, no-c-format
+msgid "Could not open “{name}”."
+msgstr "No se pudo abrir «{name}»."
+
+#: src/editor.rs:492
+#, no-c-format
+msgid "Saved “{name}”."
+msgstr "«{name}» guardado."
+
+#: src/editor.rs:498
+#, no-c-format
+msgid "Could not save “{name}”."
+msgstr "No se pudo guardar «{name}»."
+
+#: src/editor.rs:509
+msgid "Save As…"
+msgstr "Guardar como…"
+
+#: src/editor.rs:698
+msgid "Open File"
+msgstr "Abrir archivo"
+
+#: src/i18n.rs:137 src/i18n.rs:146 src/search.rs:290
+#, no-c-format
+msgid "Replaced one occurrence."
+msgid_plural "Replaced {n} occurrences."
+msgstr[0] "Se reemplazó {n} coincidencia."
+msgstr[1] "Se reemplazaron {n} coincidencias."
+
+#: src/languages.rs:42
+msgid "Plain Text"
+msgstr "Texto sin formato"
+
+#: src/languages.rs:44
+msgid "INI/Configuration"
+msgstr "INI/Configuración"
+
+#: src/search.rs:148
+msgid "Replace"
+msgstr "Reemplazar"
+
+#: src/search.rs:150
+msgid "Find"
+msgstr "Buscar"
+
+#: src/search.rs:161
+msgid "_Search for:"
+msgstr "B_uscar:"
+
+#: src/search.rs:178
+msgid "Replace _with:"
+msgstr "Reemplazar _con:"
+
+#: src/search.rs:184
+msgid "_Match case"
+msgstr "Distinguir _mayúsculas"
+
+#: src/search.rs:185
+msgid "Match _entire word only"
+msgstr "Solo palabras com_pletas"
+
+#: src/search.rs:186
+msgid "Search _backwards"
+msgstr "Buscar hacia _atrás"
+
+#: src/search.rs:187
+msgid "Wra_p around"
+msgstr "_Volver al principio"
+
+#. TRANSLATORS: Knöpfe im Such-/Ersetzen-Dialog; die Zugriffstasten dürfen sich nicht mit den Feldern darüber überschneiden.
+#: src/search.rs:200
+msgctxt "Search dialog"
+msgid "_Close"
+msgstr "C_errar"
+
+#: src/search.rs:201
+msgid "Replace _All"
+msgstr "Reemplazar _todo"
+
+#: src/search.rs:202
+msgid "_Replace"
+msgstr "_Reemplazar"
+
+#: src/search.rs:203
+msgid "_Find"
+msgstr "_Buscar"
+
+#: src/search.rs:289
+msgid "Nothing found – nothing replaced."
+msgstr "No se encontró nada; no se reemplazó nada."
+
+#: src/search.rs:355
+#, no-c-format
+msgid "Replace failed: {error}"
+msgstr "Falló el reemplazo: {error}"
+
+#: src/search.rs:363
+msgid "Reached the end of the document, continued from the beginning."
+msgstr "Se llegó al final del documento; se continuó desde el principio."
+
+#: src/search.rs:366
+#, no-c-format
+msgid "“{text}” not found."
+msgstr "No se encontró «{text}»."
+
+#: src/search.rs:367
+msgid "No search text."
+msgstr "No hay texto que buscar."

@@ -9,11 +9,12 @@ cargo build --release --locked
 
 ## Übersetzungen
 
-Texte im Code sind englisch (msgid), Deutsch steht in `po/de.po`. Kataloge
+Texte im Code sind englisch (msgid), Übersetzungen stehen in `po/de.po`,
+`po/it.po`, `po/es.po` und `po/fr.po` (Sprachen in `po/LINGUAS`). Kataloge
 erzeugen (ohne GNU gettext, reines Python):
 
 ```bash
-python3 werkzeug/i18n.py pruefen               # .pot aktuell, de.po vollständig
+python3 werkzeug/i18n.py pruefen               # .pot aktuell, alle .po vollständig
 python3 werkzeug/i18n.py mo <prefix>/share/locale
 ```
 
@@ -21,11 +22,11 @@ Die Binary sucht `<lang>/LC_MESSAGES/querencia-editor.mo` zuerst in
 `<ordner der binary>/share/locale`, dann in `<ordner>/../share/locale`,
 zuletzt in `/usr/share/locale`; `QUERENCIA_EDITOR_LOCALEDIR` setzt das
 Verzeichnis ausdrücklich. Nach Textänderungen: `i18n.py pot`, `update`,
-`de.po` ergänzen, `desktop data/org.querencia.Editor.desktop.in
+alle `.po` ergänzen, `desktop data/org.querencia.Editor.desktop.in
 data/org.querencia.Editor.desktop`. Einzelheiten: `docs/i18n-muster.md`.
 
 Paketvorschlag (nicht umgesetzt): `/usr/bin/querencia-editor`,
-`/usr/share/locale/de/LC_MESSAGES/querencia-editor.mo` (aus `po/de.po`,
+`/usr/share/locale/<lang>/LC_MESSAGES/querencia-editor.mo` (aus `po/<lang>.po`,
 Build-Abhängigkeit `gettext` für `msgfmt -c`),
 `/usr/share/applications/org.querencia.Editor.desktop`,
 `/usr/share/icons/hicolor/*/apps/org.querencia.Editor.{png,svg}`.
