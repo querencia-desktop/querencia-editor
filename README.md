@@ -26,8 +26,9 @@ in German, the user interface is available in English and German.
   .sh .py .rs .c` fest zugeordnet, `.txt` als reiner Text).
 - Suchen (Strg+F), Weitersuchen (Strg+G), Ersetzen (Strg+H), Gehe zu Zeile
   (Strg+I); Rückfrage vor dem Schließen geänderter Dokumente.
-- Oberfläche auf Englisch und Deutsch über GNU gettext (englische msgid,
-  `po/de.po`); Auswahl über `LANGUAGE`/`LANG`.
+- Oberfläche auf Englisch, Deutsch, Italienisch, Spanisch und Französisch über
+  GNU gettext (englische msgid, `po/de.po`, `it.po`, `es.po`, `fr.po`); Auswahl
+  über `LANGUAGE`/`LANG`.
 - Bewusst **nicht** Teil dieses Programms: Drucken, Werkzeugleiste,
   Seitenleiste, Plugins, Rechtschreibprüfung, Sitzungswiederherstellung,
   Einstellungsdialog.
@@ -38,7 +39,7 @@ Anwendungskennung (App-ID): `org.querencia.Editor` · Binary:
 | Datei | Inhalt |
 |---|---|
 | `src/` | Fenster, Reiter, Dokumente, Suchen/Ersetzen, Sprachen, Übersetzung (`i18n.rs`) |
-| `po/` | Vorlage `querencia-editor.pot`, Deutsch `de.po` |
+| `po/` | Vorlage `querencia-editor.pot`, Kataloge `de.po`, `it.po`, `es.po`, `fr.po` |
 | `data/` | Desktop-Datei (aus `.desktop.in`), Programm- und Fenstersymbol (ohne 48×48), Querencia-Logo, eingebettete Ressource |
 | `werkzeug/i18n.py` | Kataloge prüfen und erzeugen ohne GNU gettext (`pot`, `update`, `mo`, `desktop`, `pruefen`) |
 | `docs/` | Bauen, Prüfen, Muster für die Mehrsprachigkeit (`i18n-muster.md`) |
@@ -47,7 +48,7 @@ Anwendungskennung (App-ID): `org.querencia.Editor` · Binary:
 
 | | |
 |---|---|
-| Version | 0.2.4 (Tag `editor/0.2.4`; Info-Dialog mit Alpha-Hinweis, Website, Copyright und Lizenz, Hilfe-Menü mit Online-Hilfe und „Fehler melden“); seit 0.2.3 dunkeltauglich, eindeutige deutsche Zugriffstasten im Such-/Ersetzen-Dialog |
+| Version | 0.2.5 (Tag `editor/0.2.5`; Italienisch, Spanisch, Französisch); 0.2.4: Info-Dialog mit Alpha-Hinweis, Website, Copyright und Lizenz, Hilfe-Menü mit Online-Hilfe und „Fehler melden“); seit 0.2.3 dunkeltauglich, eindeutige deutsche Zugriffstasten im Such-/Ersetzen-Dialog |
 | Letzte Prüfung | 22.10.2026 (0.2.4): fmt und Clippy sauber, 8 Unit-Tests (1 GUI-Test `#[ignore]`), `i18n.py pruefen` (80 Texte, Zugriffstasten je Menü), 10 Tests `werkzeug/test_i18n.py`; isoliert Deutsch und Englisch bei 1024×768: Online-Hilfe, „Fehler melden“ (je über die Zugriffstaste) und Info-Dialog. 21.10.2026 (0.2.3): isoliert 19 Läufe hell/dunkel Deutsch und Englisch bei 1024×768 und 1920×1080 |
 | Bekannte Lücken | siehe „Zweck“; die isolierte GUI-Prüfung liegt noch nicht in diesem Repo ([docs/testing.md](docs/testing.md)); MetaInfo ohne Übersetzung |
 | Getestet auf | Ubuntu 26.04, labwc 0.9.8, GTK 4.22, Rust 1.93.1 |
