@@ -9,8 +9,9 @@ Anleitung auf <https://querencialinux.org>.
 
 *English summary:* A classic tabbed text editor modelled on GNOME 2's gedit
 2.30, built with GTK 4 and GtkSourceView 5. Part of Querencia Desktop, a
-classic GNOME-2-style desktop for Wayland. Alpha software; documentation is
-in German, the user interface is available in English and German.
+classic GNOME-2-style desktop for Wayland. Alpha software; the user interface
+is available in German, English, Italian, Spanish and French; documentation is
+in German.
 
 > **Alpha.** Prototyp: kein Drucken, keine Werkzeugleiste, keine Plugins.
 > Keine Sicherheits- oder Datenverlustgarantie.
